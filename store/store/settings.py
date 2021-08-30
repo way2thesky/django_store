@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'shop.apps.ShopConfig',
-
     'customer.apps.CustomerConfig',
+    'orders.apps.OrdersConfig',
+    'basket.apps.BasketConfig',
 
 ]
 
@@ -52,6 +53,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'store.middlewares.auth.auth_middleware'
+    # 'store.middlewares.auth.LoginRequiredMiddleware',
+
 ]
 
 ROOT_URLCONF = 'store.urls'

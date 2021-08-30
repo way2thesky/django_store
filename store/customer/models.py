@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from django.db import models
 from django_countries.fields import CountryField
 
+
 class CustomAccountManager(BaseUserManager):
 
     def create_superuser(self, email, user_name, password, **other_fields):
@@ -24,7 +25,7 @@ class CustomAccountManager(BaseUserManager):
     def create_user(self, email, user_name, password, **other_fields):
 
         if not email:
-            raise ValueError(_('You must provide an email address'))
+            raise ValueError('You must provide an email address')
 
         email = self.normalize_email(email)
         user = self.model(email=email, user_name=user_name,
@@ -32,6 +33,7 @@ class CustomAccountManager(BaseUserManager):
         user.set_password(password)
         user.save()
         return user
+
 
 class UserBase(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
