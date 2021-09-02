@@ -1,6 +1,51 @@
-{% extends 'base_generic.html' %}
-
-
+{% extends "base_generic.html" %}
+{% block title %}Store - Low Prices in Books & more{% endblock %}
 {% block content %}
-    <h1>index:HOME PAGE</h1>
+
+    <style>
+        img {
+            width: 350px;
+            height: 500px;
+
+        }
+
+        .card-text {
+
+            text-align: center;
+        }
+    </style>
+
+    <div class="container">
+        <div class="row">
+            <div class="album py-5">
+                <div class="pb-3">
+                    <h1 class="h3">Popular</h1>
+                </div>
+                {% if not products %}
+                    <div class="col-12">There are currently no products active</div>
+                {% else %}
+
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+                        {% for product in products %}
+                            <div class="col">
+                                <div class="card border-0">
+
+                                    <a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}" alt="Responsive image"> </a>
+                                    <div class="card-body px-0">
+
+                                        <div class="card-text">
+                                             <h5> {{ product.title}}</h5>
+                                            <h5 class="fw-bold">£{{ product.price }}</h5>
+</div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
