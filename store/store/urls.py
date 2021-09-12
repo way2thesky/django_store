@@ -20,20 +20,20 @@ from django.urls import include
 from django.urls import path
 
 # from django.views.generic import RedirectView
-from shop import views
+
 from customer import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', RedirectView.as_view(url='/shop/', permanent=True)),
     path('', include('shop.urls')),
-    path('basket/', include('basket.urls')),
+    path('', include('basket.urls')),
+
     path('', include('orders.urls')),
 
 ]
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
-    path("accounts/register/", views.account_register, name="register"),
+    path('accounts/register/', views.account_register, name='register'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

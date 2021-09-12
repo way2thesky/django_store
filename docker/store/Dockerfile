@@ -20,16 +20,10 @@ ENV DJANGO_ENV=${DJANGO_ENV} \
 
 RUN apt-get update
 
-
-
-# Install python dependencies
-RUN pip install -U --no-cache-dir pip \
-    && pip install --no-cache-dir pipenv
-
+WORKDIR /pysetup
 
 COPY ./store/requirements.txt .
 RUN pip install -r requirements.txt
-
 
 
 # Installing `dockerize` utility:

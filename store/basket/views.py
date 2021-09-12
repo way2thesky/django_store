@@ -1,7 +1,10 @@
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
+from django.views import View
 
 from basket.basket import Basket
+from customer.models import UserBase
+from orders.models import Order
 from shop.models import Product
 
 
@@ -46,3 +49,26 @@ def basket_update(request):
         baskettotal = basket.get_total_price()
         response = JsonResponse({'qty': basketqty, 'subtotal': baskettotal})
         return response
+
+
+class CheckOut(View):
+    def post(self, request):
+        address = request.POST.get('address')
+        phone = request.POST.get('phone')
+        customer = request.session.get('customer')
+        basket = request.session.get('basket')
+        products = Product.get_products_by_id(list(basket.keys()))
+        print(address, phone, customer, basket, products)
+
+        for product in products:
+            print(basket.get(str(product.id)))
+            order = Order(customer=UserBase(id=customer),
+                          product=product,
+                          price=product.price,
+                          address=address,
+                          phone=phone,
+                          quantity=basket.get(str(product.id)))
+            order.save()
+        request.session['basket'] = {}
+
+        return redirect('basket')

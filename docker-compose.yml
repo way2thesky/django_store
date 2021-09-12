@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  shop: &shop
+  shop:
     container_name: shop
     build:
       context: .
@@ -20,7 +20,7 @@ services:
     restart: on-failure
     command: sh /runserver.sh
     healthcheck:
-      test: [ "CMD", "curl", "--fail", "http://0.0.0.0:8001/admin/login/" ]
+      test: [ "CMD", "curl", "--fail", "http://0.0.0.0:8000/admin/login/" ]
       interval: 1m
       timeout: 5s
       retries: 2
@@ -42,6 +42,32 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+
+  db:
+    container_name: db
+    image: postgis/postgis:12-master
+    restart: on-failure
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - webnet
+    expose:
+      - 5432
+    environment:
+      POSTGRES_DB: 'dbshop'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgdb'
+
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+volumes:
+  db-data:
 
 networks:
   nginx_network:

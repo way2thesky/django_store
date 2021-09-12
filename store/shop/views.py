@@ -15,31 +15,46 @@ from django.views import View
 #     def post(request, **kwargs):
 #         product = request.POST.get('product')
 #         remove = request.POST.get('remove')
-#         basket = request.session.get('basket', {product: 1})
-#         if basket:
-#             quantity = basket.get(product)
+#         cart = request.session.get('cart', {product: 1})
+#         if cart:
+#             quantity = cart.get(product)
 #             if quantity:
 #                 if remove:
 #                     if quantity <= 1:
-#                         basket.pop(product)
+#                         cart.pop(product)
 #                     else:
-#                         basket[product] = quantity - 1
+#                         cart[product] = quantity - 1
 #                 else:
-#                     basket[product] = quantity + 1
+#                     cart[product] = quantity + 1
 #
-#         request.session['basket'] = basket
+#         request.session['cart'] = cart
 #         return redirect('index')
 #
 #     @staticmethod
 #     def get(request):
 #         return render(request, 'index.html')
-
+#
 
 def product_all(request):
     products = Product.products.all()
     return render(request, 'index.html', {'products': products})
 
 
-def book_detail(request, slug=None):
-    product = get_object_or_404(Product, slug=slug, in_stock=True)
-    return render(request, 'shop/book_detail.html', {'product': product})
+# def book_detail(request, slug=None):
+#     product = get_object_or_404(Product, slug=slug, in_stock=True)
+#     return render(request, 'shop/book_detail.html', {'product': product})
+
+def book_detail(request):
+    cart = request.session.get('cart')
+    if not cart:
+        request.session['cart'] = {}
+    products = None
+
+
+
+    data = {}
+    data['products'] = products
+
+
+    print('you are : ', request.session.get('email'))
+    return render(request, 'index.html', data)
