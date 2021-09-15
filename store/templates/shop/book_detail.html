@@ -2,48 +2,46 @@
 {% load static %}
 
 {% block title %}
-  {{ book.name }}
+    {{ book.name }}
 {% endblock %}
 
 {% block content %}
 
-  <div class="book-detail">
+    <div class="book-detail">
 
-    <img src="{% if book.image %}{{ book.image.url }}{% else %}
+        <img src="{% if book.image %}{{ book.image.url }}{% else %}
     {% static "img/no_image.png" %}{% endif %}" alt="">
 
-    <h1>{{ book.title }}</h1>
-    <h2>
-      <a href="{{ book.genre.get_absolute_url }}">
-        {{ book.genre }}
-      </a>
+        <h1>{{ book.title }}</h1>
+        <h2>
+            <a href="{{ book.genre.get_absolute_url }}">
+                {{ book.genre }}
+            </a>
 
-    </h2>
-    <p class="price">
-              <form action="{% url "basket:basket_add" book.id %}" method="post">
-      {{ basket_book_form }}
-      {% csrf_token %}
-      <input type="submit" value="Add to basket">
-    </form>
+        </h2>
+        <h6 class="cart">
+        <form action="{% url "basket:basket_add" book.id %}" method="post">
+            {{ basket_book_form }}
+            {% csrf_token %}
+            <input type="submit" value="Add to basket">
+        </form>
 
 
-       <p>Price:  ₴{{ book.price }}</p>
+        <h4>Price: ₴{{ book.price }}</h4>
+        <h4>In_Stock: {{ book.quantity }}</h4>
+        <h4>Author: {{ book.author }}</h4>
+        <h4>Language: {{ book.language }}</h4>
+        <h4>Pages: {{ book.pages }}</h4>
+        <h4>ISBN: {{ book.isbn }}</h4>
 
-                              <p>Author: {{ book.author }}</p>
-                    <p>Language: {{ book.language }}</p>
-                    <p>Pages: {{ book.pages }}</p>
-                    <p>ISBN: {{ book.isbn }}</p>
-
-                    <p>Description: <br>
-                        <br>{{ book.description }}</p>
-                    <p>Stock: {{book.quantity}}</p>
-
+        <h4>Description: <br>
+            {{ book.description }}</h4>
 
 
 
-    {{ basket.description|linebreaks }}
+        {{ basket.description|linebreaks }}
 
-  </div>
+    </div>
 
 
 
