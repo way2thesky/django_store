@@ -1,13 +1,10 @@
-from django.urls import path, include
-
+from django.urls import path
 from . import views
 
 app_name = 'shop'
 
 urlpatterns = [
-    # path('', Index.as_view(), name="index"),
-    path('', views.product_all, name="index"),
-    path('shop/<int:pk>/', views.book_detail, name="book-detail"),
-    # path('<slug:slug>', views.book_detail, name='book_detail'),
-
+    path('', views.book_list, name='book_list'),
+    path('<slug:genre_slug>/', views.book_list, name='book_list_by_genre'),
+    path('<int:id>/<slug:slug>/', views.book_detail, name='book_detail'),
 ]

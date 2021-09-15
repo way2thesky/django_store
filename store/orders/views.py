@@ -1,16 +1,33 @@
 from django.shortcuts import render
-from django.views import View
 
-from orders.models import Order
-
-
-class OrderView(View):
-    @staticmethod
-    def get(request):
-        customer = request.session.get('customer')
-        orders = Order.get_orders_by_customer(customer)
-        print(orders)
-        return render(request, 'order/orders.html',
-                      {'orders': orders})
+from basket.basket import Basket
+from .models import OrderItem
+from .forms import OrderItemsForm
 
 
+def order_create(request):
+    basket = Basket(request)
+    user = request.user
+    if request.method == 'POST':
+        form = OrderItemsForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.user = user
+            order.save()
+            for item in basket:
+                OrderItem.objects.create(order=order,
+                                         book=item['book'],
+                                         price=item['price'],
+                                         quantity=item['quantity'])
+                item['book'].quantity = item['book'].quantity - item['quantity']
+                item['book'].save()
+            basket.clear()
+
+            return render(request,
+                          'orders/order_created.html',
+                          {'order': order})
+    else:
+        form = OrderItemsForm()
+    return render(request,
+                  'orders/order_create.html',
+                  {'basket': basket, 'form': form})

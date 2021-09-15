@@ -20,20 +20,19 @@ from django.urls import include
 from django.urls import path
 
 # from django.views.generic import RedirectView
-
-from customer import views
+# from shop.views import RegisterFormView
+from shop.views import RegisterFormView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('shop.urls')),
-    path('', include('basket.urls')),
-
-    path('', include('orders.urls')),
-
+    path('basket/', include('basket.urls', namespace='basket')),
+    path('orders/', include('orders.urls', namespace='orders')),
+    path('', include('shop.urls', namespace='shop')),
 ]
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/register/', views.account_register, name='register'),
+    path("accounts/register/", RegisterFormView.as_view(), name="register"),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

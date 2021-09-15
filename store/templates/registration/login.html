@@ -1,45 +1,38 @@
-{% extends "base_generic.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
-    <div class="container">
-        <div class="p-4 m-4">
-            <div class="col-lg-4 mt-4 border mb-4 mx-auto rounded pt-4">
-                <div class="text-center col">
+  {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+  {% endif %}
 
-                    <img
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Shopping_cart_with_food_clip_art_2.svg/307px-Shopping_cart_with_food_clip_art_2.svg.png"
-                            alt=""
-                            class="" style="height: 150px;">
-                    <!-- <hr> -->
-                    <div class="display-8">Create An Account</div>
-                    <hr>
-                </div>
-                <h3 hidden class="alert alert-light border mt-4 mb-4 rounded">Login Here</h3>
-                <form class="form-signin" method="POST">
-                    {% csrf_token %}
-                    <fieldset class="form-group">
-                        <br/>
-                        {{ form }}
-                    </fieldset>
-                    <div class="form-group">
-                        <button
-                                class="btn btn-lg btn-primary btn-block text-uppercase"
-                                type="submit">Login
-                        </button>
-                        <br>
-                        <div class="flex-column justify-content-center mx-auto pb-3">
-                            <div class="text-center"><a href="{% url "register" %}">Create an account</a></div>
-                            <div class="text-center"><a href="{% url "password_reset" %}">Forgotten Password?</a></div>
-                        </div>
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+    {% else %}
+      <p>Please login to see this page.</p>
+    {% endif %}
+  {% endif %}
 
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table>
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
 
+    <input type="submit" value="login"/>
+    <input type="hidden" name="next" value="{{ next }}"/>
+  </form>
 
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
 
-
-{% endblock content %}
+{% endblock %}

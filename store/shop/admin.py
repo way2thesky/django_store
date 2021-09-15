@@ -1,6 +1,5 @@
 from django.contrib import admin
-
-from shop.models import Product, Author, Language
+from .models import Genre, Book, Author
 
 
 @admin.register(Author)
@@ -8,15 +7,16 @@ class AuthorAdmin(admin.ModelAdmin):
     list_display = ['first_name', 'last_name']
 
 
-@admin.register(Language)
-class LanguageAdmin(admin.ModelAdmin):
-    list_display = ['name']
+@admin.register(Genre)
+class GenreAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
 
 
-@admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'slug', 'price',
-                    'in_stock', 'created']
-    list_filter = ['in_stock', 'is_active']
-    list_editable = ['price', 'in_stock']
+@admin.register(Book)
+class BookAdmin(admin.ModelAdmin):
+    list_display = ['author', 'genre', 'title', 'slug', 'price',
+                    'available', 'quantity']
+    list_filter = ['available', 'created']
+    list_editable = ['price', 'available']
     prepopulated_fields = {'slug': ('title',)}
