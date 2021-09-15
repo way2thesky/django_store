@@ -1,60 +1,60 @@
+from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render, get_object_or_404
-from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views import generic
 
-from django.views import View
+from basket.forms import BasketAddBookForm
+from .forms import RegisterForm
+from .models import Genre, Book
 
-from shop.models import Product
-
-from django.shortcuts import render, redirect, HttpResponseRedirect
-
-from django.views import View
-
-
-# class Index(View):
-#     @staticmethod
-#     def post(request, **kwargs):
-#         product = request.POST.get('product')
-#         remove = request.POST.get('remove')
-#         cart = request.session.get('cart', {product: 1})
-#         if cart:
-#             quantity = cart.get(product)
-#             if quantity:
-#                 if remove:
-#                     if quantity <= 1:
-#                         cart.pop(product)
-#                     else:
-#                         cart[product] = quantity - 1
-#                 else:
-#                     cart[product] = quantity + 1
-#
-#         request.session['cart'] = cart
-#         return redirect('index')
-#
-#     @staticmethod
-#     def get(request):
-#         return render(request, 'index.html')
-#
-
-def product_all(request):
-    products = Product.products.all()
-    return render(request, 'index.html', {'products': products})
+User = get_user_model()
 
 
-# def book_detail(request, slug=None):
-#     product = get_object_or_404(Product, slug=slug, in_stock=True)
-#     return render(request, 'shop/book_detail.html', {'product': product})
+class RegisterFormView(generic.FormView):
+    template_name = 'registration/register.html'
+    form_class = RegisterForm
+    success_url = reverse_lazy("shop:book_list")
 
-def book_detail(request):
-    cart = request.session.get('cart')
-    if not cart:
-        request.session['cart'] = {}
-    products = None
+    def form_valid(self, form):
+        form.save()
+
+        username = self.request.POST['username']
+        password = self.request.POST['password1']
+
+        user = authenticate(username=username, password=password)
+        login(self.request, user)
+        return super(RegisterFormView, self).form_valid(form)
 
 
+def book_list(request, genre_slug=None):
+    genre = None
+    genres = Genre.objects.all()
 
-    data = {}
-    data['products'] = products
+    books = Book.objects.filter(available=True)
+
+    if genre_slug:
+        genre = get_object_or_404(Genre, slug=genre_slug)
+        books = books.filter(genre=genre)
+    return render(request,
+                  'shop/book_list.html',
+                  {'genre': genre,
+                   'genres': genres,
+                   'books': books})
 
 
-    print('you are : ', request.session.get('email'))
-    return render(request, 'index.html', data)
+def book_detail(request, id, slug):
+    books = Book.objects.all()
+
+    total_books = books.count()
+
+    book = get_object_or_404(Book,
+                             id=id,
+                             slug=slug,
+                             available=True)
+    basket_book_form = BasketAddBookForm()
+
+    return render(request,
+                  'shop/book_detail.html',
+                  {'book': book,
+                   'basket_book_form': basket_book_form,
+                   'total_books': total_books})

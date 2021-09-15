@@ -1,74 +1,38 @@
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render, redirect
-from django.views import View
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 
-from basket.basket import Basket
-from customer.models import UserBase
-from orders.models import Order
-from shop.models import Product
+from orders.models import Order, OrderItem
+from shop.models import Book
+from .basket import Basket
+from .forms import BasketAddBookForm
 
 
-def basket_summary(request):
+@require_POST
+def basket_add(request, book_id):
     basket = Basket(request)
-    return render(request, 'basket/summary.html', {'basket': basket})
+    book = get_object_or_404(Book, id=book_id)
+    form = BasketAddBookForm(request.POST)
+    if form.is_valid():
+        item = form.cleaned_data
+        basket.add(book=book,
+                   quantity=item['quantity'],
+                   override_quantity=item['override'])
+    return redirect('basket:basket_detail')
 
 
-def basket_add(request):
+@require_POST
+def basket_remove(request, book_id):
     basket = Basket(request)
-    if request.POST.get('action') == 'post':
-        product_id = int(request.POST.get('productid'))
-        product_qty = int(request.POST.get('productqty'))
-        product = get_object_or_404(Product, id=product_id)
-        basket.add(product=product, qty=product_qty)
-
-        basketqty = basket.__len__()
-        response = JsonResponse({'qty': basketqty})
-        return response
+    book = get_object_or_404(Book, id=book_id)
+    basket.remove(book)
+    return redirect('basket:basket_detail')
 
 
-def basket_delete(request):
+def basket_detail(request):
     basket = Basket(request)
-    if request.POST.get('action') == 'post':
-        product_id = int(request.POST.get('productid'))
-        basket.delete(product=product_id)
-
-        basketqty = basket.__len__()
-        baskettotal = basket.get_total_price()
-        response = JsonResponse({'qty': basketqty, 'subtotal': baskettotal})
-        return response
-
-
-def basket_update(request):
-    basket = Basket(request)
-    if request.POST.get('action') == 'post':
-        product_id = int(request.POST.get('productid'))
-        product_qty = int(request.POST.get('productqty'))
-        basket.update(product=product_id, qty=product_qty)
-
-        basketqty = basket.__len__()
-        baskettotal = basket.get_total_price()
-        response = JsonResponse({'qty': basketqty, 'subtotal': baskettotal})
-        return response
-
-
-class CheckOut(View):
-    def post(self, request):
-        address = request.POST.get('address')
-        phone = request.POST.get('phone')
-        customer = request.session.get('customer')
-        basket = request.session.get('basket')
-        products = Product.get_products_by_id(list(basket.keys()))
-        print(address, phone, customer, basket, products)
-
-        for product in products:
-            print(basket.get(str(product.id)))
-            order = Order(customer=UserBase(id=customer),
-                          product=product,
-                          price=product.price,
-                          address=address,
-                          phone=phone,
-                          quantity=basket.get(str(product.id)))
-            order.save()
-        request.session['basket'] = {}
-
-        return redirect('basket')
+    for item in basket:
+        item['update_quantity_form'] = BasketAddBookForm(initial={'quantity': item['quantity'],
+                                                                  'override': True})
+    return render(request, 'basket/basket_detail.html', {'basket': basket})
