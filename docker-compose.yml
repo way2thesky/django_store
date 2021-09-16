@@ -1,45 +1,110 @@
 version: "3.8"
 
 services:
+  db_shop:
+    container_name: db_shop
+    image: postgres:latest
+    restart: on-failure
+    volumes:
+      - db-data-shop:/var/lib/postgresql/data
+    networks:
+      - webnet
+    expose:
+      - 5432
+    environment:
+      POSTGRES_DB: 'dbshop'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgdb'
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
+  db_warehouse:
+    container_name: db_warehouse
+    image: postgres:latest
+    restart: on-failure
+    volumes:
+      - db-data-warehouse:/var/lib/postgresql/data
+    networks:
+      - webnet
+    expose:
+      - 5433
+    environment:
+      POSTGRES_DB: 'dbwarehouse'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgdb'
+    command: postgres -p 5433
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  warehouse: &warehouse
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    networks:
+      - webnet
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: mypants1sbad
+    ports:
+      - "5050:80"
+
+  warehouse:
     container_name: warehouse
     build:
       context: .
       dockerfile: docker/api_warehouse/Dockerfile
+      args:
+        DJANGO_ENV: 'dev'
     networks:
       - webnet
       - nginx_network
     expose:
       - 8001
-    environment:
-      DATABASE_PORT: '5432'
     volumes:
-      - ./drf_warehouse/:/code
+      - ./drf_warehouse:/code
+      - ./config:/config
+    environment:
+      DJANGO_DEBUG: 1
+      DATABASE_HOST: 'db_warehouse'
+      DATABASE_PORT: '5432'
+    depends_on:
+      - db_warehouse
     restart: on-failure
     command: sh /runserver.sh
     healthcheck:
-      test: [ "CMD", "curl", "--fail", "http://0.0.0.0:8002/admin/login/" ]
+      test: [ "CMD", "curl", "--fail", "http://0.0.0.0:8001/admin/login/" ]
       interval: 1m
       timeout: 5s
       retries: 2
 
 
-  shop: &shop
+  shop:
     container_name: shop
     build:
       context: .
       dockerfile: docker/store/Dockerfile
+      args:
+        DJANGO_ENV: 'dev'
     networks:
       - webnet
       - nginx_network
     expose:
       - 8000
-    environment:
-      DATABASE_PORT: '5432'
     volumes:
-      - ./store/:/code
+      - ./store:/code
+      - ./config:/config
+    environment:
+      DJANGO_DEBUG: 1
+      DATABASE_HOST: 'db_shop'
+      DATABASE_PORT: '5432'
+    depends_on:
+      - db_shop
     restart: on-failure
     command: sh /runserver.sh
     healthcheck:
@@ -47,6 +112,38 @@ services:
       interval: 1m
       timeout: 5s
       retries: 2
+
+  celery:
+    container_name: celery
+    build:
+      context: .
+      dockerfile: docker/store/Dockerfile
+      args:
+        DJANGO_ENV: 'dev'
+    networks:
+      - webnet
+      - nginx_network
+    expose:
+      - 8000
+    volumes:
+      - ./store:/code
+      - ./config:/config
+    environment:
+      C_FORCE_ROOT: 'true'
+      DATABASE_URL: 'postgresql://postgres:postgdb@db:5432/dbshop'
+      DATABASE_HOST: 'db'
+      DATABASE_PORT: '5432'
+      REDIS_URL: 'redis://redis:6379/0'
+      REDIS_CACHE: 'redis:6379'
+      AMQP_URL: 'amqp://rabbitmq:5672'
+      CHECK_WEB: 'true'
+      WEB_HOST: 'shop'
+      WEB_PORT: '8000'
+    depends_on:
+      - redis
+      - db_shop
+    restart: on-failure
+    command: celery -A store worker -B -l INFO
 
   redis:
     container_name: redis
@@ -82,24 +179,24 @@ services:
       timeout: 15s
       retries: 1
 
-
-  celery:
-    <<: *shop
-    container_name: celery
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog:latest
+    command: [ "-smtp-bind-addr", "0.0.0.0:25" ]
+    user: root
     restart: on-failure
-    depends_on:
-      - rabbitmq
-    expose: [ ]
     networks:
       - webnet
-    environment:
-      C_FORCE_ROOT: 'true'
-      CHECK_WEB: 'true'
+      - nginx_network
+    expose:
+      - 25
+      - 8025
     healthcheck:
-      test: [ "CMD-SHELL", "ps ax", "|" ,"grep -v grep", "|" ,"grep celery",  "||", "exit 1" ]
-      interval: 1m
+      test: [ "CMD", "echo", "|", "telnet", "127.0.0.1 25" ]
+      interval: 10s
       timeout: 5s
-      retries: 2
+      retries: 5
+
 
   nginx:
     container_name: nginx
@@ -111,9 +208,12 @@ services:
       - nginx_network
     ports:
       - 80:80
+      - 8001:8001
+      - 8025:8025
     depends_on:
       - warehouse
       - shop
+      - mailhog
     healthcheck:
       test: [ "CMD-SHELL", "ps ax", "|" ,"grep -v grep", "|" ,"grep nginx",  "||", "exit 1" ]
       interval: 30s
@@ -126,9 +226,7 @@ networks:
   webnet:
 
 volumes:
-  db-data:
+  db-data-shop:
+  db-data-warehouse:
   rabbitmq_data:
   redis:
-
-
-

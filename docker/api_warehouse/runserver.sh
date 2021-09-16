@@ -17,7 +17,7 @@ if [ "$DJANGO_ENV" = 'dev' ]; then
 #  python /code/manage.py collectstatic --noinput
 
   echo "Run server"
-  exec  python -Wd manage.py runserver 0.0.0.0:8000
+  exec  python -Wd manage.py runserver 0.0.0.0:8001
 else
   echo "ERROR: DJANGO_ENV isn't valid"
   echo 'Application will not start.'
