@@ -14,10 +14,13 @@ def send_mail_task(subject, message, email):
 
 @shared_task
 def shop_sync():
-    url = 'http://127.0.0.1:8000/warehouse/authors/'
-    response_author = requests.get(url).json()
+    url = 'http://warehouse:8001/authors/'
+    response_author = requests.get(url)
+    if response_author.status_code != 200:
+        return
+    response_data = response_author.json()
     while 1:
-        for counter, data in enumerate(response_author['results']):
+        for counter, data in enumerate(response_data['results']):
             Author.objects.get_or_create(
                 id=data['id'],
                 defaults={
@@ -27,12 +30,12 @@ def shop_sync():
                 }
             )
 
-        if response_author['next']:
-            response_author = requests.get(response_author['next']).json()
+        if response_data['next']:
+            response_data = requests.get(response_data['next']).json()
         else:
             break
 
-    url = 'http://127.0.0.1:8000/warehouse/genres/'
+    url = 'http://warehouse:8001/genres/'
     response_genre = requests.get(url).json()
     while 1:
         for counter, data in enumerate(response_genre['results']):
@@ -50,8 +53,7 @@ def shop_sync():
             ).json()
         else:
             break
-
-    url = 'http://127.0.0.1:8000/warehouse/books/'
+    url = 'http://warehouse:8001/books/'
     response = requests.get(url).json()
     while 1:
         for counter, data in enumerate(response['results']):
@@ -97,3 +99,40 @@ def shop_sync():
             response = requests.get(response['next']).json()
         else:
             break
+        print('Sync is done')
+#
+
+# @shared_task
+# def shop_sync():
+#
+#     response = requests.get('http://warehouse:8001/books/'.json())
+#
+#     for counter, book in enumerate(response):
+#         if Book.objects.filter(id=book['id']).exists():
+#             continue
+#         else:
+#             genre_list = []
+#
+#             for genre_resp in book['genre']:
+#                 genre, created = Genre.objects.get_or_create(name=genre_resp['name'])
+#                 genre_list.append(genre.id)
+#
+#             book = Book(
+#                 title=book['title'],
+#                 description=book['description'],
+#                 image=book['image'],
+#                 language=book['language'],
+#                 status=book['status'],
+#                 price=book['price'],
+#                 isbn=book['isbn'],
+#                 pages=book['pages'],
+#                 created=book['created'],
+#                 available=book['available'],
+#                 quantity=book['quantity'],
+#             )
+#             book.save()
+#             for genre in genre_list:
+#                 book.genre.add(genre)
+#                 book.save()
+#
+#     print('Sync is done')
