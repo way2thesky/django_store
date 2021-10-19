@@ -24,6 +24,7 @@ class Order(models.Model):
     postal_code = models.CharField(max_length=10)
     city = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
+
     status = models.PositiveSmallIntegerField(
         choices=OrderStatus.choices, default=OrderStatus.WAITING)
     comment = models.CharField('comment', max_length=20, blank=True)

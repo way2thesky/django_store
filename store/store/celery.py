@@ -1,7 +1,7 @@
 import os
 
 from celery import Celery
-from celery.schedules import crontab
+from datetime import timedelta
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'store.settings')
 
@@ -20,7 +20,7 @@ def debug_task(self):
 
 app.conf.beat_schedule = {
     'shop_sync': {
-        'task': 'store.tasks.shop_sync',
-        'schedule': crontab(minute=0, hour=0)
+        'task': 'shop.tasks.shop_sync',
+        'schedule': timedelta(seconds=15)
     }
 }

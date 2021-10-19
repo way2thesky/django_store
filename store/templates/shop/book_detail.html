@@ -9,9 +9,19 @@
 
     <div class="book-detail">
 
-        <img src="{% if book.image %}{{ book.image.url }}{% else %}
-    {% static "img/no_image.png" %}{% endif %}" alt="">
+        <a href="{{ book.get_absolute_url }}"><img src="{{ book.image.url }}" alt="Responsive image"> </a>
 
+        <div class="add-basket">
+            <br> <br> <br> <br>
+            <form method="post">
+{#                {% if basket_book_form.errors %}#}
+{#                    <p>{{ basket_book_form.errors.as_text }}</p>#}
+{#                {% endif %}#}
+                {{ basket_book_form }}
+                {% csrf_token %}
+                <input type="submit" value="Add to basket">
+            </form>
+        </div>
         <h1>{{ book.title }}</h1>
         <h2>
             <a href="{{ book.genre.get_absolute_url }}">
@@ -19,12 +29,6 @@
             </a>
 
         </h2>
-        <h6 class="cart">
-        <form action="{% url "basket:basket_add" book.id %}" method="post">
-            {{ basket_book_form }}
-            {% csrf_token %}
-            <input type="submit" value="Add to basket">
-        </form>
 
 
         <h4>Price: ₴{{ book.price }}</h4>
@@ -36,7 +40,6 @@
 
         <h4>Description: <br>
             {{ book.description }}</h4>
-
 
 
         {{ basket.description|linebreaks }}

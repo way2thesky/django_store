@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate, login, get_user_model
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
+from basket.basket import Basket
 from basket.forms import BasketAddBookForm
 from .forms import RegisterForm
 from .models import Genre, Book
@@ -43,6 +44,7 @@ def book_list(request, genre_slug=None):
 
 
 def book_detail(request, id, slug):
+    basket = Basket(request)
     books = Book.objects.all()
 
     total_books = books.count()
@@ -51,7 +53,16 @@ def book_detail(request, id, slug):
                              id=id,
                              slug=slug,
                              available=True)
-    basket_book_form = BasketAddBookForm()
+    if request.method == "POST":
+        basket_book_form = BasketAddBookForm(data=request.POST, product=book, cart=basket)
+        if basket_book_form.is_valid():
+            item = basket_book_form.cleaned_data
+            basket.add(book=book,
+                       quantity=item['quantity'],
+                       override_quantity=item['override'])
+            return redirect('basket:basket_detail')
+    else:
+        basket_book_form = BasketAddBookForm(product=book, cart=basket)
 
     return render(request,
                   'shop/book_detail.html',

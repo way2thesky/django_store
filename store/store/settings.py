@@ -155,6 +155,7 @@ LOGIN_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 BASKET_SESSION_ID = 'basket'
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 # CELERY
 CELERY_DEBUG = False

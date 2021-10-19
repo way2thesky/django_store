@@ -21,7 +21,8 @@ class Basket(object):
         for book in books:
             basket[str(book.id)]['book'] = book
 
-        for item in basket.values():
+        for pk, item in basket.items():
+            item["pk"] = int(pk)
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
             yield item

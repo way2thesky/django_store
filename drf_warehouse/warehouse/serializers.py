@@ -43,3 +43,7 @@ class OrderSerializer(serializers.ModelSerializer):
             each['order'] = order
         order_items_serializer.create(valid_data)
         return order, valid_data
+
+
+class GetRequestSerializer(serializers.Serializer):
+    name = serializers.CharField(required=True)
