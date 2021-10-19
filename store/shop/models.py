@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.urls import reverse
 
@@ -27,6 +29,9 @@ class Genre(models.Model):
 
 
 class Book(models.Model):
+    id = models.UUIDField(  # noqa: A003
+        primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular book across whole library"
+    )
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
     genre = models.ForeignKey(Genre,
                               related_name='books',
