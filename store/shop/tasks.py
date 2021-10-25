@@ -1,8 +1,11 @@
 import os
+import tempfile
+from os.path import basename
 
 from celery import shared_task
 
 import requests
+from django.core import files
 from django.core.files.base import ContentFile
 
 from .models import Author, Book, Genre
@@ -80,7 +83,6 @@ def shop_sync():
                         "description": data['description'],
                         "language": data['language'],
                         "pages": data['pages'],
-                        "image": data['image'],
                         'slug': data['slug'],
                         "price": data['price'],
                         "isbn": data['isbn'],
@@ -89,6 +91,16 @@ def shop_sync():
                         "quantity": data['quantity'],
                     }
                 )
+                r = requests.get(data['image'])
+                if r.status_code != requests.codes.ok:
+                    continue
+                lf = tempfile.NamedTemporaryFile()
+                for block in r.iter_content(1024 * 8):
+                    if not block:
+                        break
+                    lf.write(block)
+
+                book.image.save(basename(data['image']), files.File(lf))
 
                 if not created:
                     book.genre = Genre.objects.get(id=data['genre'])
@@ -97,7 +109,6 @@ def shop_sync():
                     book.description = data['description']
                     book.language = data['language']
                     book.pages = data['pages']
-                    book.image = data['image']
                     book.slug = data['slug']
                     book.price = data['price']
                     book.isbn = data['isbn']
@@ -128,31 +139,3 @@ def shop_sync():
 # if r.ok:
 #     obj.file_field.save(os.path.basename(link), ContentFile(r.content))
 
-# import requests
-# import tempfile
-# from shop.models import Book
-# from django.core import files
-#
-# # List of images to download
-# image_urls = 'http://warehouse:8001/books/'
-#
-# for image_url in image_urls:
-#     response = requests.get(image_url, stream=True)
-#
-#     if response.status_code != requests.codes.ok:
-#         continue
-#
-#     file_name = image_url.split('/')[-1]
-#
-#     lf = tempfile.NamedTemporaryFile()
-#
-#     for block in response.iter_content(1024 * 8):
-#
-#         if not block:
-#             break
-#
-#         lf.write(block)
-#
-#     book = Book()
-#
-#     book.image.save(file_name, files.File(lf))
