@@ -1,4 +1,3 @@
-from django.core.validators import URLValidator
 from django.db import models
 from django.urls import reverse
 
@@ -37,7 +36,7 @@ class Book(models.Model):
     description = models.TextField(blank=True)
     language = models.CharField("language", max_length=20)
     pages = models.IntegerField()
-    image = models.TextField(validators=[URLValidator()])
+    image = models.ImageField(upload_to='products/%Y/%m/%d/')
     slug = models.SlugField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
