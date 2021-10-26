@@ -3,10 +3,12 @@ import tempfile
 from os.path import basename
 
 from celery import shared_task
+import tempfile
 
 import requests
 from django.core import files
-from django.core.files.base import ContentFile
+from django.core.files.base import ContentFile, File
+from django.core.files.temp import NamedTemporaryFile
 
 from .models import Author, Book, Genre
 
@@ -70,10 +72,24 @@ def shop_sync():
         if response_book.status_code != 200:
             return
         response_data_book = response_book.json()
-        while 1:
 
+        while 1:
             for counter, data in enumerate(response_data_book['results']):
+                r = requests.get(data['image'])
+                if r.status_code != requests.codes.ok:
+                    continue
+                image_temp = tempfile.NamedTemporaryFile()
+                for block in r.iter_content(1024 * 8):
+                    if not block:
+                        break
+                    image_temp.write(block)
+
+                # куда эту строку нужно передать, если мне нужен book.image (image_temp)
+                # Local variable 'book' might be referenced before assignment
+                book.image.save(basename(data['image']), files.File(image_temp))
+
                 book, created = Book.objects.get_or_create(
+                    # image_temp.book.save(basename(data['image']), files.File(image_temp)),
                     id=data['id'],
                     defaults={
                         'id': data['id'],
@@ -91,17 +107,20 @@ def shop_sync():
                         "quantity": data['quantity'],
                     }
                 )
-                r = requests.get(data['image'])
-                if r.status_code != requests.codes.ok:
-                    continue
-                lf = tempfile.NamedTemporaryFile()
-                for block in r.iter_content(1024 * 8):
-                    if not block:
-                        break
-                    lf.write(block)
+                # r = requests.get(data['image'])
+                # if r.status_code != requests.codes.ok:
+                #     continue
+                # lf = tempfile.NamedTemporaryFile()
+                # for block in r.iter_content(1024 * 8):
+                #     if not block:
+                #         break
+                #     lf.write(block)
+                # book.image.save(basename(data['image']), files.File(lf))
 
-                book.image.save(basename(data['image']), files.File(lf))
-
+                # есть такой еще вариант
+                # r = requests.get(data['image'])
+                # if r.ok:
+                #     book.image.save(basename(data['image']), ContentFile(r.content))
                 if not created:
                     book.genre = Genre.objects.get(id=data['genre'])
                     book.author = Author.objects.get(id=data['author'])
@@ -121,11 +140,11 @@ def shop_sync():
                 response_data_book = requests.get(response_data_book['next']).json()
             else:
                 break
+        print('Database was updated from warehouse api')
+
     except Exception as e:
         print('Synchronization of two databases failed. See exception:')  # noqa:T001
         print(e)  # noqa:T001
-    print('Database was updated from warehouse api')
-
 
 # import requests
 # import tempfile
@@ -138,4 +157,3 @@ def shop_sync():
 # r = requests.get(link).json()
 # if r.ok:
 #     obj.file_field.save(os.path.basename(link), ContentFile(r.content))
-
