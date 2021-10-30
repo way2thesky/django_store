@@ -1,22 +1,43 @@
-h1, h2, h3, h4, h5, h6 {
+h1, h2 {
     text-align: center;
     font-family: 'IM Fell French Canon SC', serif;
 
 }
 
+h3, h4, h5, h6 {
+    text-align: -webkit-left;
+    font-family: 'IM Fell French Canon SC', serif;
+
+}
+.login{
+    border-radius: 4px;
+    padding: 10px 50px 20px;
+    background: #ececec;
+    font-size: 14px;
+    border: 0;
+    margin-top:50px;
+}
 .add-basket {
-    text-align: center;
-        border-radius: 4px;
+    background: #ececec;
+    border-radius: 4px;
     padding: 10px 20px;
     font-size: 14px;
     border: 0;
+    float: right;
 }
 
 body {
+    color: #444;
     margin: 0;
     padding: 0;
 }
-
+.price-item{
+    width: 25%;
+    padding: 10px 20px 10px 0;
+    float: left;
+    text-align: center;
+    line-height: 2;
+}
 
 a {
     text-decoration: none;
@@ -116,39 +137,41 @@ form p input {
 }
 
 ul.errorlist {
-    float: left;
+    float: top;
     color: #ff0000;
-    clear: both;
-    font-size: 13px;
-    margin: 0;
-    padding: 0;
+    font-size: 20px;
+    border-radius: 4px;
 }
 
 
-#header {
-    padding: 10px 100px;
-    font-size: 18px;
-    overflow: auto;
-}
+
 
 #subheader {
     background: #ececec;
-    color: #444;
-    padding: 15px 100px;
+    padding: 10px 100px;
     overflow: auto;
-    float: inherit;
+    margin-top: 2%;
+
+
+}
+#just {
+    text-align: center;
+    margin: 2%;
+}
+.test {
+    margin: 2%;
 }
 
 #header .logo {
-    float: left;
-    color: #333;
-    font-size: 44px;
-    margin-right: 10%;
+    color: #000000;
+    font-size: 50px;
+    padding: 10px 70px 16px 0;
+
 }
 
 #subheader .basket {
     float: right;
-    padding-top: 4px;
+    padding-top: 5px;
 
 }
 
@@ -193,23 +216,30 @@ ul.errorlist {
     margin-right: -220px;
     overflow: hidden;
 }
-
 .book-list .item {
     width: 25%;
-    padding: 10px 20px 10px 0;
+    padding: 30px 40px 20px 0;
     float: left;
     text-align: center;
     line-height: 1.2;
 }
-
 .book-list .item img {
     width: 350px;
     height: 500px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
+
+
 .book-detail {
-    text-align: justify;
+    border-radius: 4px;
+    padding: 10px 50px 20px;
+    text-align: center;
+    background: #ececec;
+    font-size: 14px;
+    border: 0;
+    margin-top:70px;
+
 }
 
 .book-detail .price {
@@ -222,8 +252,11 @@ ul.errorlist {
     width: 350px;
     height: 500px;
     float: left;
+    margin-right: 50px;
     padding: 0 20px 20px 0;
+
 }
+
 
 .book-detail h1 {
     margin-bottom: 0;

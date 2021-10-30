@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<div class="book-detail" >
   <form method="POST" class="form-group">
     {% csrf_token %}
     <table>
@@ -9,5 +9,5 @@
     </table>
     <button type="submit" class="btn btn-success">Register</button>
   </form>
-
+</div>
 {% endblock %}

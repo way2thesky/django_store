@@ -7,10 +7,8 @@
 
     <meta charset="utf-8"/>
     <title>{% block title %}My shop{% endblock %}</title>
-    <!-- FONT-->
-    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+French+Canon+SC&display=swap" rel="stylesheet">
-    <!-- LOADSTATIC -->
 
+    <!-- LOADSTATIC -->
     <link href="{% static "css/base.css" %}" rel="stylesheet">
 </head>
 <body>
@@ -25,16 +23,14 @@
     {% block extra %}
     {% endblock %}
 
+    <div id="just">
 
-
-<h1>My READSTER Project <br> Store - Low Prices for Books</h1>
-<div id="header">
-    <a href="/" class="logo">My shop</a>
-
-
-</div>
-
+<h1>My READSTER Project <br> Store - Low Prices for Books</h1></div>
 <div id="subheader">
+
+<div id="header">
+    <a href="/" class="logo">Home</a>
+
 
 
     <div class="basket">
@@ -115,7 +111,7 @@
 
         {% endif %}
     </div>
-
+</div>
 </div>
 
 <div id="content">

@@ -1,52 +1,70 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% block extra_js %}
+    <script src="{% static 'js/order.js' %}"></script>
+{% endblock %}
 {% block title %}
-    {{ book.name }}
+    {{ book.title }}
 {% endblock %}
 
 {% block content %}
+    <div class="test">
+        <div class="book-detail">
+            <br>
+            <a href="{{ book.get_absolute_url }}"><img src="{{ book.image.url }}" alt="Responsive image"> </a>
 
-    <div class="book-detail">
+            <h1>{{ book.title }}</h1>
+            <h2>
+                {% for genre in book.genre.all %}
+                    <a href="{{ genre.get_absolute_url }}">
+                        {{ genre }}</a>{{ forloop.last|yesno:",&#44;"|safe }}
+                {% endfor %}
+            </h2>
+            <hr>
 
-        <a href="{{ book.get_absolute_url }}"><img src="{{ book.image.url }}" alt="Responsive image"> </a>
+            <div class="add-basket">
+                <form method="post">
+                    {#            {% if basket_book_form.errors %}#}
+                    {#                <p>{{ basket_book_form.errors.as_text }}</p>#}
+                    {#            {% endif %}#}
+                    {{ basket_book_form }}
+                    {% csrf_token %}
+                    <input type="submit" value="Add to basket">
+                </form>
+            </div>
 
-        <div class="add-basket">
-            <br> <br> <br> <br>
-            <form method="post">
-{#                {% if basket_book_form.errors %}#}
-{#                    <p>{{ basket_book_form.errors.as_text }}</p>#}
-{#                {% endif %}#}
-                {{ basket_book_form }}
-                {% csrf_token %}
-                <input type="submit" value="Add to basket">
-            </form>
+            <h4>Price: ₴{{ book.price }}</h4>
+            <h4>In_Stock: {{ book.quantity }}</h4>
+
+            {% with author.book_set.all|first as name %}
+                <h4>Author: <a
+                        href="{{ book.author.get_absolute_url }}">{{ book.author.first_name }} {{ book.author.last_name }}</a>
+                </h4>
+            {% endwith %}
+
+            <h4>Language: {{ book.language }}</h4>
+            <h4>Publication date : {{ book.publication_year }}</h4>
+            <h4>Pages: {{ book.pages }}</h4>
+            <h4> Rating:
+                {% if book.rating < 0.5 %}
+                    ☆☆☆☆☆
+                {% elif book.rating >= 0.5 and book.rating < 1.5 %}
+                    ★☆☆☆☆
+                {% elif book.rating >= 1.5 and book.rating < 2.5 %}
+                    ★★☆☆☆
+                {% elif book.rating >= 2.5 and book.rating < 3.5 %}
+                    ★★★☆☆
+                {% elif book.rating >= 3.5 and book.rating < 4.5 %}
+                    ★★★★☆
+                {% else %}
+                    ★★★★★
+                {% endif %}
+            </h4>
+            <h4>ISBN: {{ book.isbn }}</h4>
+
+            <h4>Description: <br><br>
+                {{ book.description }}</h4>
         </div>
-        <h1>{{ book.title }}</h1>
-        <h2>
-            <a href="{{ book.genre.get_absolute_url }}">
-                {{ book.genre }}
-            </a>
-
-        </h2>
-
-
-        <h4>Price: ₴{{ book.price }}</h4>
-        <h4>In_Stock: {{ book.quantity }}</h4>
-        <h4>Author: {{ book.author }}</h4>
-        <h4>Language: {{ book.language }}</h4>
-        <h4>Pages: {{ book.pages }}</h4>
-        <h4>ISBN: {{ book.isbn }}</h4>
-
-        <h4>Description: <br>
-            {{ book.description }}</h4>
-
-
-        {{ basket.description|linebreaks }}
-
     </div>
-
-
-
 
 {% endblock %}

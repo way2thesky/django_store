@@ -11,16 +11,14 @@ from shop.models import Author, Book, Genre
 
 
 @shared_task
-def send_mail(id):
-    order = Order.objects.get(id=id)
-    message = f'Dear {order.first_name}, in this message we will give you some info about your order'
+def send_order(first_name, last_name, phone_number, email, books):
 
-    django_send_mail('Info about your order', message, 'test@testmail.com', [order.email])
+    data = {
+        "book": f"{books}",
+        "email": f"{email}",
+        "first_name": f"{first_name}",
+        "last_name": f"{last_name}",
+        "phone_number": f"{phone_number}",
 
-
-@shared_task
-def send_mail_task(name):
-    data = {"name": name}
-    data_json = json.dumps(data)
-    print(data_json)
-    requests.post('http://warehouse:8001/recieve/', data_json)
+    }
+    requests.post(url='http://warehouse:8001/orders/', data=data)

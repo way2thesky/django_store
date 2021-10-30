@@ -21,6 +21,7 @@ from django.urls import path
 
 # from django.views.generic import RedirectView
 # from shop.views import RegisterFormView
+from shop import views
 from shop.views import RegisterFormView
 
 urlpatterns = [
@@ -28,10 +29,11 @@ urlpatterns = [
     path('basket/', include('basket.urls', namespace='basket')),
     path('orders/', include('orders.urls', namespace='orders')),
     path('', include('shop.urls', namespace='shop')),
+
 ]
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
-    path("accounts/register/", RegisterFormView.as_view(), name="register"),
+    path('accounts/register/', RegisterFormView.as_view(), name='register'),
 
 ]
 

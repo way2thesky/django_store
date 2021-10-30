@@ -6,7 +6,7 @@ from django.views import generic
 from basket.basket import Basket
 from basket.forms import BasketAddBookForm
 from .forms import RegisterForm
-from .models import Genre, Book
+from .models import Genre, Book, Author
 
 User = get_user_model()
 
@@ -43,15 +43,26 @@ def book_list(request, genre_slug=None):
                    'books': books})
 
 
-def book_detail(request, id, slug):
+# class BookDetailView(generic.DetailView):
+#     model = Book
+#     template_name = 'shop/book_detail.html'
+#     slug_url_kwarg = 'book_slug'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['author'] = self.get_object().author.__class__.objects.all()
+#         context['genre'] = Genre.objects.all()
+#         return context
+
+
+def book_detail(request, book_slug):
     basket = Basket(request)
     books = Book.objects.all()
-
     total_books = books.count()
-
+    authors = Author.objects.all()
+    genres = Genre.objects.all()
     book = get_object_or_404(Book,
-                             id=id,
-                             slug=slug,
+                             slug=book_slug,
                              available=True)
     if request.method == "POST":
         basket_book_form = BasketAddBookForm(data=request.POST, product=book, cart=basket)
@@ -68,4 +79,28 @@ def book_detail(request, id, slug):
                   'shop/book_detail.html',
                   {'book': book,
                    'basket_book_form': basket_book_form,
-                   'total_books': total_books})
+                   'total_books': total_books,
+                   'authors': authors,
+                   'genres': genres})
+
+
+# def author_detail(request, author_slug):
+#     books = Book.objects.all()
+#     total_books = books.count()
+#
+#     author = get_object_or_404(Author,
+#                                slug=author_slug)
+#
+#     return render(request,
+#                   'shop/author_detail_page.html',
+#                   {'author': author,
+#                    'total_books': total_books})
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
+    template_name = 'shop/author_detail_page.html'
+    slug_url_kwarg = 'author_slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context

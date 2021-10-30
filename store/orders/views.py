@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 import requests
-from .tasks import send_mail_task, send_mail
 from basket.basket import Basket
 from .models import OrderItem, Order
 from .forms import OrderItemsForm
@@ -27,8 +26,8 @@ def order_create(request):
                 item['book'].quantity = item['book'].quantity - item['quantity']
                 item['book'].save()
 
-                send_mail_task.delay(str(item['book']))
-            send_mail.delay(order.id)
+            #     send_mail_task.delay(str(item['book']))
+            # send_mail.delay(order.id)
             basket.clear()
 
             return render(request,

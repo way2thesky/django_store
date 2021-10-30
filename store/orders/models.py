@@ -1,10 +1,12 @@
 import uuid
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from django.db import models
 
 from shop.models import Book
+
+User = get_user_model()
 
 
 class Order(models.Model):
@@ -20,10 +22,12 @@ class Order(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
+    phone_number = models.CharField(max_length=20)
     address = models.CharField(max_length=250)
     postal_code = models.CharField(max_length=10)
     city = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
+    order_date = models.DateField('order date', null=True, blank=True, help_text='Date when order was created')
 
     status = models.PositiveSmallIntegerField(
         choices=OrderStatus.choices, default=OrderStatus.WAITING)

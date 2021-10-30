@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    {{ author.first_name }} {{ author.last_name }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="test">
+        <div class="book-detail">
+            <br>
+
+
+            <h1>About {{ author.first_name }} {{ author.last_name }} </h1>
+            <br>
+
+            <p>{{ author.bio }}</p>
+
+        </div>
+
+
+        <hr>    <div id="main" class="book-list">
+        {% for book in author.book_set.all %}
+
+
+            <div class="item">
+                <a href="{{ book.get_absolute_url }}"><img src="{{ book.image.url }}" alt="Responsive image"></a>
+                <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+                <br>
+                ₴{{ book.price }}</div>
+        {% endfor %}
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

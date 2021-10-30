@@ -30,7 +30,7 @@ class GenreAdmin(admin.ModelAdmin):
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ['author', 'genre', 'title', 'slug', 'price',
+    list_display = ['author', 'title', 'slug', 'price',
                     'available', 'quantity']
     list_filter = ['available', 'created']
     list_editable = ['price', 'available']

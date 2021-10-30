@@ -8,9 +8,15 @@ from django.db import models
 class Author(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    bio = models.TextField(blank=True)
+    slug = models.SlugField(max_length=255, null=False, unique=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+    def get_absolute_url(self):
+        return reverse('shop:author_detail',
+                       kwargs={'author_slug': self.slug})
 
 
 class Genre(models.Model):
@@ -26,9 +32,8 @@ class Genre(models.Model):
 
 class Book(models.Model):
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
-    genre = models.ForeignKey(Genre,
-                              related_name='books',
-                              on_delete=models.CASCADE)
+    genre = models.ManyToManyField(Genre, blank=True, verbose_name="genre")
+    publication_year = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     language = models.CharField("language", max_length=20)
@@ -39,6 +44,7 @@ class Book(models.Model):
 
     isbn = models.CharField('ISBN', max_length=13,
                             unique=True)
+    rating = models.FloatField(default=0)
     created = models.DateTimeField(auto_now_add=True)
     available = models.BooleanField(default=True)
     quantity = models.IntegerField()
@@ -60,10 +66,13 @@ class Order(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
+    phone_number = models.CharField(max_length=20)
     address = models.CharField(max_length=250)
     postal_code = models.CharField(max_length=10)
     city = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
+    order_date = models.DateField('order date', null=True, blank=True, help_text='Date when order was created')
+
     status = models.PositiveSmallIntegerField(
         choices=OrderStatus.choices, default=OrderStatus.WAITING)
     comment = models.CharField('comment', max_length=20, blank=True)
@@ -85,3 +94,15 @@ class OrderItem(models.Model):
     def __str__(self):
         return str(self.id)
 
+
+class BookInstance(models.Model):
+    class InstanceStatus(models.IntegerChoices):
+        RESERVED = 1, 'Reserved',
+        IN_STOCK = 2, 'In stock',
+        SOLD = 3, 'Sold'
+
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    item_of_order = models.ForeignKey(OrderItem, on_delete=models.CASCADE)
+    book_status = models.PositiveSmallIntegerField(
+        choices=InstanceStatus.choices, default=InstanceStatus.IN_STOCK
+    )
