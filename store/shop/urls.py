@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from django.urls import path
 from . import views
+# from .views import contact_form_ajax
 
 app_name = 'shop'
 
@@ -12,6 +13,5 @@ urlpatterns = [
     path('genre/<slug:genre_slug>/', views.book_list, name='book_list_by_genre'),
     path('book/<slug:book_slug>/', views.book_detail, name='book_detail'),
     # path('book/<slug:book_slug>/', views.BookDetailView.as_view(), name='book_detail'),
-
 ]
 

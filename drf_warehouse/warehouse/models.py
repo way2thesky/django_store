@@ -31,7 +31,7 @@ class Genre(models.Model):
 
 
 class Book(models.Model):
-    author = models.ForeignKey('Author', on_delete=models.CASCADE)
+    author = models.ForeignKey('Author', on_delete=models.CASCADE, null=True)
     genre = models.ManyToManyField(Genre, blank=True, verbose_name="genre")
     publication_year = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=255)

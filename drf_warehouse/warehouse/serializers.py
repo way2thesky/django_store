@@ -6,7 +6,7 @@ from .models import Author, Book, Order, OrderItem, Genre
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ['id', 'first_name', 'last_name']
+        fields = ['id', 'first_name', 'last_name', 'bio', 'slug']
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -16,12 +16,11 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-
-
     class Meta:
         model = Book
-        fields = ['id', 'author', 'genre', 'title', 'description', 'language', 'pages', 'image',
+        fields = ['id', 'author', 'genre', 'publication_year', 'title', 'description', 'language', 'pages', 'image',
                   'slug', 'price', 'isbn', 'created', 'available', 'quantity']
+
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -35,7 +34,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'first_name', 'last_name', 'email', 'status', 'items']
+        fields = ['id', 'first_name', 'last_name', 'email','phone_number', 'status', 'items']
 
     def create(self, validated_data):
         valid_data = validated_data.pop('order_item_set')

@@ -1,39 +1,43 @@
 {% extends "base.html" %}
 
 
+
 {% block title %}
     {{ author.first_name }} {{ author.last_name }}
 {% endblock %}
 
 
 {% block content %}
-    <div class="test">
-        <div class="book-detail">
-            <br>
+
+    <div class="author-detail">
+        <br>
 
 
-            <h1>About {{ author.first_name }} {{ author.last_name }} </h1>
-            <br>
+        <h1>About {{ author.first_name }} {{ author.last_name }} </h1>
+        <br>
 
-            <p>{{ author.bio }}</p>
+        <p>{{ author.bio }}</p>
 
-        </div>
-
-
-        <hr>    <div id="main" class="book-list">
-        {% for book in author.book_set.all %}
-
-
-            <div class="item">
-                <a href="{{ book.get_absolute_url }}"><img src="{{ book.image.url }}" alt="Responsive image"></a>
-                <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
-                <br>
-                ₴{{ book.price }}</div>
-        {% endfor %}
-        </div>
     </div>
 
+    <br>
 
 
+
+    <div class="card-deck">
+
+        {% for book in author.book_set.all %}
+            <div class="book">
+                <div class="tar">
+
+                    <a href="{{ book.get_absolute_url }}"><img class="card-img-top" src="{{ book.image.url }}"
+                                                               alt="Responsive image"></a> <br>
+                    <a href="{{ book.get_absolute_url }}" class="card-text"><h3>{{ book|truncatechars_html:20 }}</h3></a>
+                    <div class="card-text font-weight-bold">{{ book.price }}₴</div>
+                    <br>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

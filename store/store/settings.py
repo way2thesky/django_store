@@ -41,11 +41,9 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'orders.apps.OrdersConfig',
     'basket.apps.BasketConfig',
-    'widget_tweaks',
 
     'django_celery_results',
     'django_celery_beat',
-
 ]
 
 MIDDLEWARE = [

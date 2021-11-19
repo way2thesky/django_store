@@ -20,10 +20,13 @@ def shop_sync():
 
         while url and (response_authors := requests.get(url)).status_code == requests.codes.ok:
             for author_data in response_authors.json()['results']:
-                Author.objects.get_or_create(
-                    **{
+                Author.objects.update_or_create(
+                    slug=author_data['slug'],
+                    defaults={
                         'first_name': author_data['first_name'],
-                        'last_name': author_data['last_name']
+                        'last_name': author_data['last_name'],
+                        'bio': author_data['bio'],
+
                     }
                 )
             url = response_authors.json()['next']
@@ -46,11 +49,10 @@ def shop_sync():
 
         while url and (response_books := requests.get(url)).status_code == requests.codes.ok:
             for book_data in response_books.json()['results']:
-                book, created = Book.objects.update_or_create(
-                    isbn=book_data['isbn'],
+                book, created = Book.objects.get_or_create(
+                    id=book_data['id'],
                     defaults={
                         'id': book_data['id'],
-                        # "genre": Genre.objects.get(slug=book_data['genre']['slug']),
                         "author": Author.objects.get(**{
                             'first_name': book_data["author"]['first_name'],
                             'last_name': book_data["author"]['last_name']
@@ -61,12 +63,15 @@ def shop_sync():
                         "pages": book_data['pages'],
                         'slug': book_data['slug'],
                         "price": book_data['price'],
+                        'isbn': book_data['isbn'],
                         "created": book_data['created'],
                         "available": book_data['available'],
                         "quantity": book_data['quantity'],
                     }
                 )
-                # "genre": Genre.objects.get(slug=book_data['genre']['slug']),
+                for i in book_data['genre']:
+                    genre = Genre.objects.get(id=i)
+                    book.genre.add(genre)
 
                 image_name = urlparse(book_data['image']).path.split('/')[-1]
                 img = requests.get(book_data['image']).content

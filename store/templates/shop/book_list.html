@@ -6,33 +6,67 @@
 {% endblock %}
 
 {% block content %}
-
-
-    <div id="sidebar">
-
-        <h3>Genres</h3>
-        <ul>
-            <li {% if not genre %}class="selected"{% endif %}>
-                <a href="{% url "shop:book_list" %}">All</a>
-            </li>
-            {% for c in genres %}
-                <li {% if genre.slug == c.slug %}class="selected"{% endif %}>
-                    <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+    <div class="col-sm-10 ">
+        <div id="sidebar">
+            <h3>Genres</h3>
+            <ul>
+                <li {% if not genre %}class="selected"{% endif %}>
+                    <a href="{% url "shop:book_list" %}">All</a>
                 </li>
-            {% endfor %}
-        </ul>
+                {% for c in genres %}
+                    <li {% if genre.slug == c.slug %}class="selected"{% endif %}>
+                        <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-    <div id="main" class="book-list">
-        <h1>{% if genre %}{{ genre.name }}{% else %}Books{% endif %}</h1>
-        {% for book in books %}
-            <div class="item">
-                <a href="{{ book.get_absolute_url }}"><img src="{{ book.image.url }}" alt="Responsive image"> </a>
-                <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
-                <br>
-                ₴{{ book.price }}
+    <br>
 
+    <h1>{% if genre %}{{ genre.name }}{% else %}Books{% endif %}</h1>
+
+    <div class="card-deck">
+
+        {% for book in books %}
+            <div class="book">
+                <div class="tar">
+
+                    <a href="{{ book.get_absolute_url }}"><img class="card-img-top" src="{{ book.image.url }}"
+                                                               alt="Responsive image"></a> <br>
+
+                    <a href="{{ book.get_absolute_url }}" class="card-text"><h3>{{ book|truncatechars_html:20 }}</h3></a>
+                    <div class="card-text font-weight-bold">{{ book.price }}₴</div>
+                    <div class="card-text font-weight-bold">{{ book.author }}</div>
+
+                    <div class="card-text">
+                        <h2 class="text-warning">
+
+                            {% if book.rating < 0.5 %}
+                                ☆☆☆☆☆
+                            {% elif book.rating >= 0.5 and book.rating < 1.5 %}
+                                ★☆☆☆☆
+                            {% elif book.rating >= 1.5 and book.rating < 2.5 %}
+                                ★★☆☆☆
+                            {% elif book.rating >= 2.5 and book.rating < 3.5 %}
+                                ★★★☆☆
+                            {% elif book.rating >= 3.5 and book.rating < 4.5 %}
+                                ★★★★☆
+                            {% else %}
+                                ★★★★★
+                            {% endif %}
+
+                        </h2>
+                        <button class="btn btn-warning" id="addTocart" data-book-id="{{ item.id }}">
+                            <i class="fa fa-shopping-cart"></i>Add to cart
+                        </button>
+                        <br><br>
+                    </div>
+
+
+                </div>
             </div>
+
         {% endfor %}
     </div>
-
+ </div>
 {% endblock %}

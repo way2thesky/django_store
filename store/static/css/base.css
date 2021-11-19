@@ -4,19 +4,21 @@ h1, h2 {
 
 }
 
-h3, h4, h5, h6 {
+h4, h6 {
     text-align: -webkit-left;
     font-family: 'IM Fell French Canon SC', serif;
 
 }
-.login{
+
+.login {
     border-radius: 4px;
     padding: 10px 50px 20px;
     background: #ececec;
     font-size: 14px;
     border: 0;
-    margin-top:50px;
+    margin-top: 50px;
 }
+
 .add-basket {
     background: #ececec;
     border-radius: 4px;
@@ -31,7 +33,8 @@ body {
     margin: 0;
     padding: 0;
 }
-.price-item{
+
+.price-item {
     width: 25%;
     padding: 10px 20px 10px 0;
     float: left;
@@ -39,28 +42,6 @@ body {
     line-height: 2;
 }
 
-a {
-    text-decoration: none;
-    color: #5993bb;
-}
-
-a:hover {
-    color: #77b6e2;
-}
-
-a.button, input[type="submit"] {
-    color: #fff;
-    background: #5993bb;
-    border-radius: 4px;
-    padding: 10px 20px;
-    font-size: 14px;
-    border: 0;
-}
-
-a.button.light {
-    color: #666;
-    background: #ededed;
-}
 
 .text-left {
     text-align: left;
@@ -144,8 +125,6 @@ ul.errorlist {
 }
 
 
-
-
 #subheader {
     background: #ececec;
     padding: 10px 100px;
@@ -154,13 +133,17 @@ ul.errorlist {
 
 
 }
-#just {
+
+.author-detail {
+    border-radius: 4px;
+    padding: 10px 50px 20px;
     text-align: center;
-    margin: 2%;
+    background: #ececec;
+    font-size: 14px;
+    border: 0;
+    margin-top: 70px;
 }
-.test {
-    margin: 2%;
-}
+
 
 #header .logo {
     color: #000000;
@@ -209,6 +192,21 @@ ul.errorlist {
 #sidebar ul li.selected a {
     color: #fff;
 }
+.book .tar {
+    margin-left: 10%;
+    text-align: center;
+
+}
+.book img{
+    width: 350px;
+    height: 500px;
+    overflow: hidden;
+    display: inline-block;
+    margin: 1em;
+    margin-bottom: 10px;
+
+
+}
 
 #main {
     float: left;
@@ -216,19 +214,23 @@ ul.errorlist {
     margin-right: -220px;
     overflow: hidden;
 }
+
 .book-list .item {
     width: 25%;
-    padding: 30px 40px 20px 0;
+    padding: 10px 20px 10px 0;
     float: left;
     text-align: center;
     line-height: 1.2;
-}
-.book-list .item img {
-    width: 350px;
-    height: 500px;
-    margin-bottom: 10px;
+
 }
 
+.book-list .item img {
+    width: 90%;
+    left: 10%;
+    margin-bottom: 10px;
+
+
+}
 
 
 .book-detail {
@@ -238,7 +240,7 @@ ul.errorlist {
     background: #ececec;
     font-size: 14px;
     border: 0;
-    margin-top:70px;
+    margin-top: 70px;
 
 }
 
@@ -279,9 +281,7 @@ ul.errorlist {
     border-bottom: 4px solid #5993bb;
 }
 
-.order-info h3 {
-    color: #5993bb;
-}
+
 
 .order-info ul li {
     margin: 0;
@@ -296,80 +296,4 @@ ul.errorlist {
 
 .order-info span {
     float: right;
-}
-
-.neg {
-    color: #dc1616;
-}
-
-.languages {
-    float: right;
-    padding-top: 4px;
-    font-size: 14px;
-}
-
-.languages ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    float: left;
-}
-
-.languages ul li {
-    float: left;
-    margin: 0 0 0 10px;
-    font-size: 14px;
-}
-
-.languages p {
-    float: left;
-    margin: 0;
-}
-
-.recommendations {
-    clear: both;
-}
-
-.recommendations div {
-    float: left;
-}
-
-.recommendations img {
-    width: 200px
-}
-
-.recommendations p {
-    clear: both;
-}
-
-.recommendations.basket {
-    width: 60%;
-    float: left;
-    overflow: auto;
-}
-
-.recommendations.basket h3 {
-    margin-top: 0;
-}
-
-.recommendations.basket .item {
-    margin-right: 10px;
-}
-
-.recommendations.basket img {
-    width: 120px;
-}
-
-/* braintree hosted fields */
-form div.field {
-    font-size: 13px;
-    color: #666;
-    width: 300px;
-    height: 22px;
-    margin-bottom: 10px;
-    padding: 6px 12px;
-    border: 0;
-    background: #efefef;
-    color: #666;
-    border-radius: 4px;
 }
