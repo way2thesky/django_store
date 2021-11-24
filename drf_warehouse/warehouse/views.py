@@ -34,13 +34,15 @@ class OrderItemViewSet(viewsets.ModelViewSet):
     serializer_class = OrderItemSerializer
 
 
+
+
 @api_view(['POST'])
 def get_request(request):
     data = JSONParser().parse(request)
     serializer = GetRequestSerializer(data=data)
     if serializer.is_valid():
-        Book.objects.get(tittle=serializer.data['name']).delete()
-        print('deleted')
+        queryset = Book.objects.filter(name=serializer.data['name'])
+        queryset[0].delete()
         return JsonResponse(serializer.data, status=201)
     else:
         return JsonResponse(serializer.errors, status=400)

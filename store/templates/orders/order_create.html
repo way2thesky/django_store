@@ -1,11 +1,12 @@
-{% extends "base.html" %}
+{% extends "shop/../includes/nav_header.html" %}
 
 {% block title %}
   Checkout
 {% endblock %}
 
 {% block content %}
-        <div class="col-sm-10 ">
+    <div class="container">
+
 
   <h1>Checkout</h1>
 
@@ -27,4 +28,7 @@
     <p><input type="submit" value="Place order"></p>
     {% csrf_token %}
   </form>
+        </div>
+        {% block footer %}
+{% endblock %}
 {% endblock %}

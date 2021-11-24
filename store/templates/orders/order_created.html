@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "shop/../includes/nav_header.html" %}
 
 {% block title %}
   Thank you
@@ -7,5 +7,7 @@
 {% block content %}
   <h1>Thank you</h1>
   <p>Your order has been successfully completed. Your order number is
-  <strong>{{ order.id }}</strong>.</p>
+  <strong>{{ order }}</strong>.</p>
+        {% block footer %}
+{% endblock %}
 {% endblock %}

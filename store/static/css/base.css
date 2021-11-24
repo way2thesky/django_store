@@ -20,7 +20,6 @@ h4, h6 {
 }
 
 .add-basket {
-    background: #ececec;
     border-radius: 4px;
     padding: 10px 20px;
     font-size: 14px;
@@ -32,6 +31,8 @@ body {
     color: #444;
     margin: 0;
     padding: 0;
+    background: linear-gradient(to bottom, #EEF5DB, #B8D8D8, #FE5F55);
+
 }
 
 .price-item {
@@ -115,6 +116,7 @@ form p input {
     background: #efefef;
     color: #666;
     border-radius: 4px;
+
 }
 
 ul.errorlist {
@@ -138,7 +140,7 @@ ul.errorlist {
     border-radius: 4px;
     padding: 10px 50px 20px;
     text-align: center;
-    background: #ececec;
+    background: linear-gradient(to bottom, #EEF5DB, #B8D8D8);
     font-size: 14px;
     border: 0;
     margin-top: 70px;
@@ -172,6 +174,7 @@ ul.errorlist {
 #sidebar ul {
     margin: 0;
     padding: 0;
+
 }
 
 #sidebar ul li {
@@ -187,17 +190,20 @@ ul.errorlist {
 #sidebar ul li.selected {
     background: #5993bb;
     border-radius: 4px;
+
 }
 
 #sidebar ul li.selected a {
     color: #fff;
 }
+
 .book .tar {
     margin-left: 10%;
     text-align: center;
 
 }
-.book img{
+
+.book img {
     width: 350px;
     height: 500px;
     overflow: hidden;
@@ -237,7 +243,8 @@ ul.errorlist {
     border-radius: 4px;
     padding: 10px 50px 20px;
     text-align: center;
-    background: #ececec;
+    background: linear-gradient(to bottom, #F8F8F8, #94C5CC, #94C5CC);
+
     font-size: 14px;
     border: 0;
     margin-top: 70px;
@@ -282,7 +289,6 @@ ul.errorlist {
 }
 
 
-
 .order-info ul li {
     margin: 0;
     padding: 0;
@@ -296,4 +302,38 @@ ul.errorlist {
 
 .order-info span {
     float: right;
+}
+
+
+
+
+/* Navbar links */
+.navbar a {
+  float: left;
+  text-align: center;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+
+/* Current/active navbar link */
+.active {
+  background-color: #04AA6D;
+
+}
+
+/* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
+@media screen and (max-width: 500px) {
+  .navbar a {
+    float: none;
+    display: block;
+    font-size: 35px;
+
+  }
+}
+
+.basket-head {
+float: right;
 }

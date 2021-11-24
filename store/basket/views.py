@@ -42,5 +42,6 @@ def basket_detail(request):
     basket = Basket(request)
     for item in basket:
         item['update_quantity_form'] = BasketAddBookForm(initial={'quantity': item['quantity'],
-                                                                  'override': True}, cart=basket, product=Book.objects.get(id=item["pk"]))
+                                                                  'override': True}, cart=basket,
+                                                         product=Book.objects.get(id=item["pk"]))
     return render(request, 'basket/basket_detail.html', {'basket': basket})

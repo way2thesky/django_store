@@ -1,18 +1,45 @@
+import difflib
+import functools
+
+from django.contrib.admin.templatetags.admin_list import results
 from django.contrib.auth import authenticate, login, get_user_model
 from django.core.mail import send_mail
-from django.http import JsonResponse
+from django.core.paginator import Paginator
+from django.db.models import Q
+from django.http import JsonResponse, Http404, BadHeaderError
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib import messages
+from django.views.generic import ListView, TemplateView
 
 from basket.basket import Basket
 from basket.forms import BasketAddBookForm
 from .forms import RegisterForm, ContactForm
-from .models import Genre, Book, Author
+from .models import Genre, Book, Author, Slider
 
 User = get_user_model()
+
+class GenreYear:
+    """Жанры и года выхода фильмов"""
+
+    def get_genres(self):
+        return Genre.objects.all()
+
+def about(request):
+    return render(request, "shop/about.html")
+
+
+def index(request):
+    new_published = Book.objects.order_by('-created')[:15]
+    slide = Slider.objects.order_by('-created')[:3]
+
+    context = {
+        "new_books": new_published,
+        "slide": slide,
+    }
+    return render(request, 'index.html', context)
 
 
 class RegisterFormView(generic.FormView):
@@ -47,18 +74,6 @@ def book_list(request, genre_slug=None):
                    'books': books})
 
 
-# class BookDetailView(generic.DetailView):
-#     model = Book
-#     template_name = 'shop/book_detail.html'
-#     slug_url_kwarg = 'book_slug'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['author'] = self.get_object().author.__class__.objects.all()
-#         context['genre'] = Genre.objects.all()
-#         return context
-
-
 def book_detail(request, book_slug):
     basket = Basket(request)
     books = Book.objects.all()
@@ -88,18 +103,6 @@ def book_detail(request, book_slug):
                    'genres': genres})
 
 
-# def author_detail(request, author_slug):
-#     books = Book.objects.all()
-#     total_books = books.count()
-#
-#     author = get_object_or_404(Author,
-#                                slug=author_slug)
-#
-#     return render(request,
-#                   'shop/author_detail_page.html',
-#                   {'author': author,
-#                    'total_books': total_books})
-
 class AuthorDetailView(generic.DetailView):
     model = Author
     template_name = 'shop/author_detail_page.html'
@@ -108,3 +111,48 @@ class AuthorDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+def contact(request):
+    if request.method == "GET":
+        form = ContactForm()
+    else:
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            from_email = form.cleaned_data['from_email']
+            message = form.cleaned_data['message']
+            try:
+                send_mail(subject, message, from_email, ['admin@example.com'])
+                messages.add_message(request, messages.SUCCESS, 'Message sent')
+            except BadHeaderError:
+                messages.add_message(request, messages.ERROR, 'Message not sent')
+            return redirect('/')
+    return render(
+        request,
+        "shop/contact.html",
+        context={
+            "form": form,
+        }
+    )
+
+
+def search(request):
+    search = request.GET.get('q')
+    books = Book.objects.all()
+    if search:
+        books = books.filter(
+            Q(title__icontains=search) | Q(genre__name__icontains=search) | Q(author__first_name__icontains=search)
+
+        )
+
+    paginator = Paginator(books, 10)
+    page = request.GET.get('page')
+    books = paginator.get_page(page)
+
+    context = {
+        "book": books,
+        "search": search,
+    }
+    return render(request, 'shop/search.html', context)
+

@@ -35,10 +35,9 @@ class Genre(models.Model):
         return reverse('shop:book_list_by_genre', args=[self.slug])
 
 
-
 class Book(models.Model):
     author = models.ForeignKey('Author', on_delete=models.CASCADE, null=True)
-    genre = models.ManyToManyField(Genre, blank=True, related_name='books', )
+    genre = models.ForeignKey('Genre', on_delete=models.CASCADE, null=True)
     publication_year = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
@@ -88,3 +87,13 @@ class Comment(models.Model):
         )
 
     )
+
+
+class Slider(models.Model):
+    title = models.CharField(max_length=150)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    slideimg = models.FileField(upload_to="slide/")
+
+    def __str__(self):
+        return self.title

@@ -1,0 +1,17 @@
+        <div class="col-sm-10 ">
+            <div id="sidebar">
+                <h3>Genres</h3>
+                <ul>
+                    <li {% if not genre %}class="selected"{% endif %}>
+                        <a href="{% url "shop:book_list" %}">All</a>
+                    </li>
+                    {% for c in gen %}
+
+                        <li {% if genre.slug == c.slug %}class="selected"{% endif %}>
+                            <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <br>

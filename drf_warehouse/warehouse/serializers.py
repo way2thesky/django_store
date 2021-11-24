@@ -22,7 +22,6 @@ class BookSerializer(serializers.ModelSerializer):
                   'slug', 'price', 'isbn', 'created', 'available', 'quantity']
 
 
-
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
@@ -34,7 +33,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'first_name', 'last_name', 'email','phone_number', 'status', 'items']
+        fields = ['id', 'first_name', 'last_name', 'email', 'phone_number', 'status', 'items']
 
     def create(self, validated_data):
         valid_data = validated_data.pop('order_item_set')

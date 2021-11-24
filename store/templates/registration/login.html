@@ -1,6 +1,7 @@
-{% extends "base.html" %}
+{% extends "shop/../includes/nav_header.html" %}
 
 {% block content %}
+
 <div class="login" >
   {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>
@@ -35,4 +36,6 @@
   {# Assumes you setup the password_reset view in your URLconf #}
   <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
 </div>
+    {% block footer %}
+{% endblock %}
 {% endblock %}

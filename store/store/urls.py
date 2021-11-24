@@ -26,9 +26,12 @@ from shop.views import RegisterFormView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('home/', views.index, name='home'),
     path('basket/', include('basket.urls', namespace='basket')),
     path('orders/', include('orders.urls', namespace='orders')),
     path('', include('shop.urls', namespace='shop')),
+    path('about/', views.about, name='shop-about'),
+    path('contact/', views.contact, name='store-contact'),
 
 ]
 urlpatterns += [

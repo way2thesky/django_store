@@ -11,14 +11,16 @@ from shop.models import Author, Book, Genre
 
 
 @shared_task
-def send_order(first_name, last_name, phone_number, email, books):
+def send_mail(order_id):
+    order = Order.objects.get(id=order_id)
+    message = f'Dear {order.first_name}, in this message we will give you some info about your order'
 
-    data = {
-        "book": f"{books}",
-        "email": f"{email}",
-        "first_name": f"{first_name}",
-        "last_name": f"{last_name}",
-        "phone_number": f"{phone_number}",
+    django_send_mail('Info about your order', message, 'test@testmail.com', [order.email])
 
-    }
-    requests.post(url='http://warehouse:8001/orders/', data=data)
+
+@shared_task
+def send_to_api(title):
+    data = {"title": title}
+    data_json = json.dumps(data)
+    print(data_json)  # noqa: T001
+    requests.post('http://warehouse:8001/orders/', data_json)

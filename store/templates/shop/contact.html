@@ -1,0 +1,123 @@
+{% extends "shop/../includes/nav_header.html" %}
+{% block content %}
+    <style>
+        .contact-form {
+            float: right;
+            width: 300px;
+        }
+    </style>
+
+
+    <div class="container">
+        <h1>Contact Us</h1>
+        <div class="contact-form">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="form-actions">
+                    <button type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="contact__aside-box"><h3 class="contact__title">Readster Shop</h3><br>
+            <div class="contact__inner">
+                <div class="contact__aside-wrapper">
+                    <aside class="contact__aside">
+                        <div class="contact__list">
+                            <div class="contact__item contact__item--address">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="16" height="27"
+                                     viewBox="0 0 16 27">
+                                    <image id="Vector_Smart_Object" data-name="Vector Smart Object" width="16"
+                                           height="27"
+                                           xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAbCAYAAAB1NA+iAAACRUlEQVQ4jY3Uy2teVRQF8F/S0GJmDlSEYqkjFQl9iGkLIgRb/4BSwYGUahtKsBMD1YnaphkpYkNnIk1ooJPUQSQjycCCWGPtA/oAO3agONM+UAmRDevK7fUa3HD4zll7rXX3Od/ZZ2DqxAc68QIOYx82J/UTvsLn+KFNH2zNh3EWl7ELs3gjYzbY5XCGG9FQS7yMZ/EaFrpl4RQO4DM8g1dwvzGYwXPYg9vBXsTLmV/E9zG+hW+jOVJbGMFbGI+4qvkCKziWsRJsOJzxaEYGs7jRKnsmX96LpzL2BjsTzkI044M57QtYw5NxnsiZNLEc7FA4a9HsK4Mt+DHEbRjAYs8hLia3LevSbCmDjbgX8M/8PtJj0GB/5bc0G8vgZ2wNuJLERI/BRHLfZf00fqm/8VpuX8VdfIiPUtls8Nr7+zgeTsVOXB2K48HWlz7BKqZiVvE7JnG6xXsJ52oLX6ac0VayiE/k+u7KvC0ejWaxDK5n7yc7e34QfCXzdpwMfr1ppvfwKsZ6Dq8bY+GW5p9u/BpL+BQb1hFvCGcpmofaeTLdeGQdg8PhTDZA2+BO7nq17aM94sKmw7nTZyCHsxpiN6aTe+iwuwa/5bIcxfYWvj3Y8XD+06BiHpdS6kDGmWDzXfJQj0G16tu4kvewYneu7tr/MZDLNYePs54L9q/o28LruIk38XhGzQur3LoV7MD5vLzvYFPwP7A/uXpIrjaCbgXV7/Vg1Av9fAxq1LywyjWPT28F5V5t+m7u+mPBf8U3yTXPH/gbfPCEfVcdqacAAAAASUVORK5CYII="></image>
+                                </svg>
+                                12345, Kharkiv, street. Sumska 5
+                                <span class="contact__item-icon"></span><br><br>
+                            </div>
+                            <div class="contact__item contact__item--tell">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="20" height="20"
+                                     viewBox="0 0 20 20">
+                                    <image id="Vector_Smart_Object" data-name="Vector Smart Object" width="20"
+                                           height="20"
+                                           xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABw0lEQVQ4jZ3VS4hOcRjH8c9Mo8TGwsK1yWWNQkouC5dCrmVBdoqN2ZgVZV7vjMiClSxMWYlmQ9KwoggbJqYkC5fFuGyULJRS6BnPy3nfzrzT8duc8z//c77nf57f7/mfjv6TfdNxHZv9008Mogc/tNGJWr1psgtDWIrDCQpNxTm8x6l2wFYFcBuO4FLL3GwcqgrsxDMsLpl7jPmYUhV4DztL5kbyOKcq8A4WZN2K2pLn36oCn+b5ysL1fbiM4/hcFfg1P6/hf9Tzarp8pgpMuhw6ivvp7BuMYQ068KvqCkMP8QkXE7AVq7C/6gobwAj0XuzCCrzI/F3Bkv8Bhh7hFu5iGvpyPDIBdCa6B+q1ppxGLxfHEZ0PeIV1ee0GtuNAmhUlOYbThefGstPOdmnWdyzD2wTtztD35+f3ZL17cRC3sRyrY5/AvFZg422xWYziATblzUMJ6E2zrvmz2wxjeKBei3QMlgFDL7EQz9P9DdkA3ViE1yXPfAlPOksmiiudm/l8kiWYNQHsr9oBQ1HTHRnyyOXH3EzWlvT++LjV5cleHuDzaUToHW7mqqPOo5OtsKgIf5gUwZ+BjfnrWI8L483Ant95u2Ra3BLOywAAAABJRU5ErkJggg=="></image>
+                                </svg>
+                                <a class="contact__link" href="tel:123456789">
+                                    1 123 456 789
+                                </a>
+                                <span class="contact__item-icon"></span><br><br>
+
+                            </div>
+                            <div class="contact__item contact__item--time">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24" height="25"
+                                     viewBox="0 0 24 25">
+                                    <image id="Vector_Smart_Object" data-name="Vector Smart Object" width="24"
+                                           height="25"
+                                           xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAZCAYAAAArK+5dAAADJUlEQVRIiY2WaYhPURjGfzMRmZB9yVLUfBopZRvLhMlayBdJY8kSZYvIfLhznLmFT7KULwyGJMr2xS5iKEtKRPZIZsYytmwNQ6+eW6d/d/4zb93uPe+9533e87zPec/NKd9QRjOtAuivTxuAhcDzyPmss1s0NzpQDPQJxvb8vKlJuc0IegCoyQhudhiojL0bnS1AYxS1BM4DRcBV4BhwC6gDfgtsIDADGAFcACZHztc3ZwV5wAegDTAUsAy3AteAh8AT4CKwBRgJjAI62JzYu7ymAPKU5X6gELgp/xCgTIXeB5QreE7kfBUwTP66TJCQIqPlvThfJt8gBa4TXQVS0GWgGvgC7Iqct9URe7cdmAd0SugKV2CcPwJWaTwV2C452rUR+AH8kn82sAhYH3tXojmrReGpTIqKleEyFbFAQPmScoPoSeyQwOzdcGBO7N2IyPnfmlcce1cUAswFqgLOHTBLaqlJEUJiBtJbaiqNvbOamOquAwtCgAnACT3nq9jfgZ9Zgv/fpJHzBmJ8f5IwzI4D4xOALrpuB3R1AuYHwWwf9ArGm4DdwXgm0C8JCtwFusXedTOA7nK+1r0vME6FTOyotG8gm4GxwMrkZeR8JTBGc81e6t41rRdZQf9m+A4GmT1Vpp8zvrFk/+i5VeLLDYqY9JoX0vi6FJBpacFj76ygD8LMda82gHdALTBYzrPAJbWCTKtKydxsr+ac0diKXRs5/zZR0TlJDWXxVXxbfXJSAobZ95AobPcmMp+SgCUAu9TYRmpcppZx39SQJX5r1eUk4AVYqFh7QoCrUskO6dsOklJ1z9byrQ0CrwDaAu3F/ebI+Tuxd9bPthldkfNXyDjRJqlN7wQWi+85lhTQDhgAHJFSrKFN1E5eHjl/TzG2aaN2ToKGAPXi/KN4XypFlUjfpp4lWnWFmuNjO5ODzE1NHcODJ+1EayPpPrPstJJsVhhk3jNy/lv4bdpG+y5VnFZtbqi3mEJeaXXW4KyQ03U3iXZOOzIb+6uwD60nmaqs51tbMDmG9kZSXJMcOGnW1G+L0ZNQZKsyEAO3zWmnnPWhxmcD/wDReef0kzDUFgAAAABJRU5ErkJggg=="></image>
+                                </svg>
+                                9-00 - 18-00 (Monday-Friday)
+                                <span class="contact__item-icon"></span>
+                            </div>
+                            <br>
+                            <a class="contact__item contact__item--email contact__link"
+                               href="mailto:pk@readster.com.ua">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="21" height="14"
+                                     viewBox="0 0 21 14">
+                                    <image id="Vector_Smart_Object" data-name="Vector Smart Object" width="21"
+                                           height="14"
+                                           xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAOCAYAAADABlfOAAABSklEQVQ4ja3TMUucQRDG8d/JCalslCuEaGET7IS0dn4BSS/Br5DGwvPN61XCifkINoKNjYV1Ghu7gCHhsBHR1krw4BQZGfXuzOVUHFgWZp757+zMbmX9+9oNRryf3VYT2MEpvuH6DfgP2MQ0qtV0LmAHX/A1TnsFMIraTnBwfj5cu4WZXIcpeGmFh125LX29bGMef3CCiSHAidSFfr5elO3u0rstrr2MHzjH7ADgbMZDt1wvyp52DZp6E4v4jaIvVqQ/4s16UT5Lrj7zPNlkVr6auu0c4kr6Jwcl/qvSCrawgY+o5VM5yr2W/ohvNcqiMgw6ioN8GlO4wCWWMJ77ZfqnUnfQKIvRQdAxHOcrmMPVf1oj43OpP26UxVg/9DPOsJcDiB/2Egtd6CMv8oPzOKh9/MWv/FWvtciLlgTnHhqnxf4Ju28A9hqdO4LbS6O6BkH2AAAAAElFTkSuQmCC"></image>
+                                </svg>
+                                pk@readster.com.ua
+                                <span class="contact__item-icon"></span> <br><br>
+
+                            </a>
+                        </div>
+                    </aside>
+                </div>
+                <div class="contact__aside-box"><h4 class="contact__title contact__title--middle">Supply of
+                    advertisements and discount systems</h4>
+                    <div class="contact__list">
+                        <a class="contact__item contact__item--email contact__link"
+                           href="mailto:pr@readster.com.ua">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 width="21" height="14"
+                                 viewBox="0 0 21 14">
+                                <image id="Vector_Smart_Object" data-name="Vector Smart Object" width="21"
+                                       height="14"
+                                       xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAOCAYAAADABlfOAAABSklEQVQ4ja3TMUucQRDG8d/JCalslCuEaGET7IS0dn4BSS/Br5DGwvPN61XCifkINoKNjYV1Ghu7gCHhsBHR1krw4BQZGfXuzOVUHFgWZp757+zMbmX9+9oNRryf3VYT2MEpvuH6DfgP2MQ0qtV0LmAHX/A1TnsFMIraTnBwfj5cu4WZXIcpeGmFh125LX29bGMef3CCiSHAidSFfr5elO3u0rstrr2MHzjH7ADgbMZDt1wvyp52DZp6E4v4jaIvVqQ/4s16UT5Lrj7zPNlkVr6auu0c4kr6Jwcl/qvSCrawgY+o5VM5yr2W/ohvNcqiMgw6ioN8GlO4wCWWMJ77ZfqnUnfQKIvRQdAxHOcrmMPVf1oj43OpP26UxVg/9DPOsJcDiB/2Egtd6CMv8oPzOKh9/MWv/FWvtciLlgTnHhqnxf4Ju28A9hqdO4LbS6O6BkH2AAAAAElFTkSuQmCC"></image>
+                            </svg>
+                            pr@readster.com.ua
+                            <span class="contact__item-icon"></span>
+                        </a>
+                    </div>
+                </div>
+                <br>
+                <div class="contact__aside-box"><h4 class="contact__title contact__title--middle">For skargs and
+                    propositions</h4>
+                    <div class="contact__list">
+                        <a class="contact__item contact__item--email contact__link"
+                           href="mailto:pr@readster.com.ua">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 width="21" height="14"
+                                 viewBox="0 0 21 14">
+                                <image id="Vector_Smart_Object" data-name="Vector Smart Object" width="21"
+                                       height="14"
+                                       xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAOCAYAAADABlfOAAABSklEQVQ4ja3TMUucQRDG8d/JCalslCuEaGET7IS0dn4BSS/Br5DGwvPN61XCifkINoKNjYV1Ghu7gCHhsBHR1krw4BQZGfXuzOVUHFgWZp757+zMbmX9+9oNRryf3VYT2MEpvuH6DfgP2MQ0qtV0LmAHX/A1TnsFMIraTnBwfj5cu4WZXIcpeGmFh125LX29bGMef3CCiSHAidSFfr5elO3u0rstrr2MHzjH7ADgbMZDt1wvyp52DZp6E4v4jaIvVqQ/4s16UT5Lrj7zPNlkVr6auu0c4kr6Jwcl/qvSCrawgY+o5VM5yr2W/ohvNcqiMgw6ioN8GlO4wCWWMJ77ZfqnUnfQKIvRQdAxHOcrmMPVf1oj43OpP26UxVg/9DPOsJcDiB/2Egtd6CMv8oPzOKh9/MWv/FWvtciLlgTnHhqnxf4Ju28A9hqdO4LbS6O6BkH2AAAAAElFTkSuQmCC"></image>
+                            </svg>
+                            pr@readster.com.ua
+                            <span class="contact__item-icon"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% block footer %}
+{% endblock %}
+{% endblock %}

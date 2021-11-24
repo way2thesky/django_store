@@ -1,14 +1,23 @@
+import datetime
 import json
 
 from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 import requests
+from rest_framework import viewsets
+
 from basket.basket import Basket
+from shop.models import Book
 from .models import OrderItem, Order
 from .forms import OrderItemsForm
+from .tasks import send_mail, send_to_api
 
+User = get_user_model()
 
+@login_required
 def order_create(request):
     basket = Basket(request)
     if request.method == 'POST':
@@ -25,9 +34,9 @@ def order_create(request):
                                          quantity=item['quantity'])
                 item['book'].quantity = item['book'].quantity - item['quantity']
                 item['book'].save()
+                send_to_api(title=item['book'].title)
 
-            #     send_mail_task.delay(str(item['book']))
-            # send_mail.delay(order.id)
+            send_to_api.delay(order.id)
             basket.clear()
 
             return render(request,

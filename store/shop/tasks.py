@@ -12,24 +12,9 @@ from .models import Author, Book, Genre
 @shared_task
 def shop_sync():
     try:
+
         print('Starting update from warehouse api for database')
         print('Getting data from api...')
-
-        url = 'http://warehouse:8001/authors/'
-        print('Clearing data...')
-
-        while url and (response_authors := requests.get(url)).status_code == requests.codes.ok:
-            for author_data in response_authors.json()['results']:
-                Author.objects.update_or_create(
-                    slug=author_data['slug'],
-                    defaults={
-                        'first_name': author_data['first_name'],
-                        'last_name': author_data['last_name'],
-                        'bio': author_data['bio'],
-
-                    }
-                )
-            url = response_authors.json()['next']
 
         url = 'http://warehouse:8001/genres/'
         print('Clearing data...')
@@ -44,34 +29,45 @@ def shop_sync():
                 )
             url = response_genres.json()['next']
 
-        url = 'http://warehouse:8001/books/'
+        url = 'http://warehouse:8001/authors/'
         print('Clearing data...')
 
+        while url and (response_authors := requests.get(url)).status_code == requests.codes.ok:
+            for author_data in response_authors.json()['results']:
+                Author.objects.get_or_create(
+                    id=author_data['id'],
+                    defaults={
+                        'slug': author_data['slug'],
+                        'first_name': author_data['first_name'],
+                        'last_name': author_data['last_name'],
+                        'bio': author_data['bio']
+
+                    }
+                )
+            url = response_authors.json()['next']
+
+        url = 'http://warehouse:8001/books/'
+        print('Clearing data...')
         while url and (response_books := requests.get(url)).status_code == requests.codes.ok:
             for book_data in response_books.json()['results']:
-                book, created = Book.objects.get_or_create(
-                    id=book_data['id'],
+                book, created = Book.objects.update_or_create(
+                    isbn=book_data['isbn'],
                     defaults={
                         'id': book_data['id'],
-                        "author": Author.objects.get(**{
-                            'first_name': book_data["author"]['first_name'],
-                            'last_name': book_data["author"]['last_name']
-                        }),
+                        "author": Author.objects.get(id=book_data['author']),
                         "title": book_data['title'],
                         "description": book_data['description'],
+                        "publication_year": book_data['publication_year'],
+
                         "language": book_data['language'],
                         "pages": book_data['pages'],
                         'slug': book_data['slug'],
                         "price": book_data['price'],
-                        'isbn': book_data['isbn'],
                         "created": book_data['created'],
                         "available": book_data['available'],
                         "quantity": book_data['quantity'],
                     }
                 )
-                for i in book_data['genre']:
-                    genre = Genre.objects.get(id=i)
-                    book.genre.add(genre)
 
                 image_name = urlparse(book_data['image']).path.split('/')[-1]
                 img = requests.get(book_data['image']).content
@@ -84,7 +80,13 @@ def shop_sync():
                     if md5.hexdigest() != hashlib.md5(img).hexdigest():
                         book.image.save(image_name, ContentFile(img), save=True)
 
-            url = response_books.json()['next']
+                for i in book_data['genre']:
+                    genre = Genre.objects.get(id=i)
+                    book.genre.add(genre)
+                    book.save()
+
+                url = response_books.json()['next']
+
     except Exception as e:
         print('Synchronization of two databases failed. See exception:')  # noqa:T001
         print(e)  # noqa:T001

@@ -23,7 +23,7 @@ def debug_task(self):
 app.conf.beat_schedule = {
     'shop_sync': {
         'task': 'shop.tasks.shop_sync',
-        'schedule': timedelta(seconds=15)
+        'schedule': crontab(minute=0, hour=0)
     },
     # 'send_mail-task': {
     #     'task': 'shop.tasks.contact_us',

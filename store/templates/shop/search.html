@@ -1,0 +1,52 @@
+{% extends 'shop/../includes/nav_header.html' %}
+
+{% load static %}
+{% block content %}
+
+    <div class="card-deck">
+
+        {% for book in book %}
+            <div class="book">
+                <div class="tar">
+
+                    <a href="{{ book.get_absolute_url }}"><img class="card-img-top" src="{{ book.image.url }}"
+                                                               alt="Responsive image"></a> <br>
+
+                    <a href="{{ book.get_absolute_url }}" class="card-text"><h3>{{ book|truncatechars_html:20 }}</h3></a>
+                    <div class="card-text font-weight-bold">{{ book.price }}₴</div>
+                    <div class="card-text font-weight-bold">{{ book.author }}</div>
+
+                    <div class="card-text">
+                        <h2 class="text-warning">
+
+                            {% if book.rating < 0.5 %}
+                                ☆☆☆☆☆
+                            {% elif book.rating >= 0.5 and book.rating < 1.5 %}
+                                ★☆☆☆☆
+                            {% elif book.rating >= 1.5 and book.rating < 2.5 %}
+                                ★★☆☆☆
+                            {% elif book.rating >= 2.5 and book.rating < 3.5 %}
+                                ★★★☆☆
+                            {% elif book.rating >= 3.5 and book.rating < 4.5 %}
+                                ★★★★☆
+                            {% else %}
+                                ★★★★★
+                            {% endif %}
+
+                        </h2>
+                        <button class="btn btn-warning" id="addTocart" data-book-id="{{ book.id }}">
+                            <i class="fa fa-shopping-cart"></i>Add to cart
+                        </button>
+                        <br><br>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+{% include "includes/pagination.html" with page=posts %}
+
+{% endblock %}
