@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_celery_results',
     'django_celery_beat',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [
@@ -168,15 +169,8 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
-MESSAGE_TAGS = {
-    messages.INFO: 'alert alert-info',
-    messages.SUCCESS: 'alert alert-success',
-    messages.WARNING: 'alert alert-warning',
-    messages.ERROR: 'alert alert-danger',
-    messages.DEBUG: 'alert alert-info',
-}
-
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 # Braintree settings
 BRAINTREE_MERCHANT_ID = '9fwqmyfpsjkmr3g6'  # Merchant ID
 BRAINTREE_PUBLIC_KEY = 'qsgy6yhbwxk33r2r'  # Public Key

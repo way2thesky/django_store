@@ -22,7 +22,7 @@ def basket_update(request, book_id):
     else:
         messages.error(request, "too many books: Check in Stock")
 
-        print(form.errors)   # noqa:T001
+        print(form.errors)  # noqa:T001
     return redirect('basket:basket_detail')
 
 
@@ -30,7 +30,7 @@ def basket_add(request, book_id):
     basket = Basket(request)
     book = get_object_or_404(Book, id=book_id)
     basket.add(book=book)
-
+    messages.success(request, "Added in your Cart")
     return redirect(book)
 
 
