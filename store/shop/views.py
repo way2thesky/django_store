@@ -15,7 +15,6 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from orders.models import Order
-from orders.tasks import payment_completed
 
 from .forms import ContactForm, RegisterForm
 from .models import Author, Book, Genre
@@ -92,7 +91,7 @@ def book_detail(request, book_slug):
                              slug=book_slug,
                              available=True)
     if request.method == "POST":
-        basket_book_form = BasketAddBookForm(data=request.POST, product=book, basket=basket)
+        basket_book_form = BasketAddBookForm(data=request.POST, product=book, cart=basket)
         if basket_book_form.is_valid():
             basket.add(book=book)
             return redirect('basket:basket_detail')
@@ -195,9 +194,9 @@ def payment_process(request):
             order.braintree_id = result.transaction.id
             order.save()
             # launch asynchronous task
-            payment_completed.delay(order.id)
             return redirect('shop:done')
         else:
+
             return redirect('shop:canceled')
     else:
         client_token = gateway.client_token.generate()

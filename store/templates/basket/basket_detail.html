@@ -12,7 +12,7 @@
             float: left;
             width: 60%;
             margin: 0 1.5%;
-    padding:70px 50px 20px;
+            padding: 70px 50px 20px;
 
         }
 
@@ -34,9 +34,9 @@
 
     </div>
 
-{#    <div class="back"><a href="{% url 'shop:book_list' %}" class="btn btn-danger _to_shope ">Continue Shopping</a>#}
-{##}
-{#    </div>#}
+    {#    <div class="back"><a href="{% url 'shop:book_list' %}" class="btn btn-danger _to_shope ">Continue Shopping</a>#}
+    {##}
+    {#    </div>#}
     <div class="aside ">
 
         <h1>Your shopping Basket</h1>
@@ -91,8 +91,9 @@
         </table>
 
 
-    </div>						<div class="continue text-center">
-<a href="{% url 'shop:book_list' %}" class="btn btn-danger _to_shope ">Continue Shopping</a>
+    </div>
+    <div class="continue text-center">
+        <a href="{% url 'shop:book_list' %}" class="btn btn-danger _to_shope ">Continue Shopping</a>
         <a href="{% url 'orders:order_create' %}" class="btn btn-primary _to_continue">Checkout</a>
     </div>
 {% endblock %}

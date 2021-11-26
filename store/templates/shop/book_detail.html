@@ -7,7 +7,7 @@
 
 {% block content %}
 
-        <div class="container">
+    <div class="container">
 
 
         <div class="book-detail">
@@ -24,10 +24,10 @@
             <hr>
 
 
-                        <form method="post" action="{% url 'basket:basket_add' book.id %}">
-                            {% csrf_token %}
-                            <button class="btn btn-success " type="submit">Add to Basket</button>
-                        </form>
+            <form method="post" action="{% url 'basket:basket_add' book.id %}">
+                {% csrf_token %}
+                <button class="btn btn-success " type="submit">Add to Basket</button>
+            </form>
 
 
             <h4>Price: ₴{{ book.price }}</h4>
@@ -62,26 +62,26 @@
             <h4>Description: <br><br>
                 {{ book.description }}</h4>
         </div>
- </div>
+    </div>
 {% endblock %}
 {% block scripts %}
-<script type="text/javascript">
-	$(document).on('ready', function() {
-		$(document).on('click', '.lookInsideImg,.lookInsideBg', function (e) {
-			$('div.overlay').fadeIn(500);
-			$('div.lookInsideDiv').fadeIn(500);
-		});
+    <script type="text/javascript">
+        $(document).on('ready', function () {
+            $(document).on('click', '.lookInsideImg,.lookInsideBg', function (e) {
+                $('div.overlay').fadeIn(500);
+                $('div.lookInsideDiv').fadeIn(500);
+            });
 
-	   $(document).on('click', 'div.lookInsideDiv div.exitBtn', function () {
-			$('div.overlay').fadeOut(500);
-			$('div.lookInsideDiv').fadeOut(500);
-			refCaro($('#bookDR99'));
-		});
-		$(document).on('click', 'div.overlay', function () {
-			$('div.overlay').fadeOut(500);
-			$('div.lookInsideDiv').fadeOut(500);
-			refCaro($('#bookDR99'));
-			return false
-		});
-	});
-</script>{% endblock %}
+            $(document).on('click', 'div.lookInsideDiv div.exitBtn', function () {
+                $('div.overlay').fadeOut(500);
+                $('div.lookInsideDiv').fadeOut(500);
+                refCaro($('#bookDR99'));
+            });
+            $(document).on('click', 'div.overlay', function () {
+                $('div.overlay').fadeOut(500);
+                $('div.lookInsideDiv').fadeOut(500);
+                refCaro($('#bookDR99'));
+                return false
+            });
+        });
+    </script>{% endblock %}

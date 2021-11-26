@@ -366,3 +366,93 @@ ul.errorlist {
     padding: 8px;
     margin-bottom: 0;
 }
+
+.registration-form input{
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.signin-form, .signup-form{
+  margin-top:20px;
+  border: 1px solid #B9C8B9;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.signin-form input, .signup-form input{
+  border: 1px solid #a6a6a6;
+  border-top-color: #949494;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(0,0,0,.07) inset;
+  outline: 0;
+}
+.signin-form h3, .signup-form h3{
+  font-family: "Times New Roman", Times, serif;
+}
+.signin-form a, .signup-form a{
+  text-decoration: none;
+  color: #0066c0;
+}
+.signin-form label, .signup-form label{
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+.auth-validate-form button{
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  background: #f0c14b;
+  margin: 8px 0;
+  border: 1px solid #c19a39;
+}
+.signin-form .btn-default{
+  background: #e7e9ec;
+  border: 1px solid #cfd4da;
+  width: 100%;
+  color: #111;
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif;
+
+}
+.a-divider-break {
+    text-align: center;
+    position: relative;
+    top: 2px;
+    padding-top: 1px;
+    margin-top: 10px;
+    margin-bottom: 14px;
+    line-height: 0;
+}
+.a-divider-break h5 {
+    line-height: 1;
+    font-size: 12px;
+    color: #767676;
+    font-weight: 400;
+    z-index: 2;
+    position: relative;
+    display: inline-block;
+    background-color: #fff;
+    padding: 0 8px 0 7px;
+}
+.a-divider-break:after {
+    content: "";
+    width: 100%;
+    background-color: transparent;
+    display: block;
+    height: 1px;
+    border-top: 1px solid #e7e7e7;
+    position: absolute;
+    top: 50%;
+    margin-top: -1px;
+    z-index: 1;
+}

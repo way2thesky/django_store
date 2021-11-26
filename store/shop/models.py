@@ -49,12 +49,10 @@ class Book(models.Model):
 
     isbn = models.CharField('ISBN', max_length=13,
                             unique=True)
-    rating = models.FloatField(default=0)
+    rating = models.FloatField(default=0, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     available = models.BooleanField(default=True)
     quantity = models.IntegerField()
-    totalreview = models.IntegerField(default=1)
-    totalrating = models.IntegerField(default=5)
 
     class Meta:
         ordering = ('title',)
@@ -72,14 +70,3 @@ class Book(models.Model):
         return ', '.join([genre.name for genre in self.genre.all()[:3]])
 
     display_genre.short_description = 'Genre'
-
-
-class Review(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    review_star = models.IntegerField()
-    review_text = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.review_text
