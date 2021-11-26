@@ -193,10 +193,8 @@ def payment_process(request):
             # store the unique transaction id
             order.braintree_id = result.transaction.id
             order.save()
-            # launch asynchronous task
             return redirect('shop:done')
         else:
-
             return redirect('shop:canceled')
     else:
         client_token = gateway.client_token.generate()
