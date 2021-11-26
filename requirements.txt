@@ -40,7 +40,6 @@ pycodestyle==2.8.0
 pycparser==2.21
 pydot==1.4.2
 pydyf==0.1.2
-pyflakes==2.4.0
 pygraphviz==1.7
 pyparsing==3.0.6
 PyPDF2==1.26.0
