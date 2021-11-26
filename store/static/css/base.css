@@ -10,28 +10,12 @@ h4, h6 {
 
 }
 
-.login {
-    border-radius: 4px;
-    padding: 10px 50px 20px;
-    background: #ececec;
-    font-size: 14px;
-    border: 0;
-    margin-top: 50px;
-}
 
 .add-basket {
     border-radius: 4px;
     padding: 10px 20px;
     font-size: 14px;
     float: right;
-
-}
-
-body {
-    color: #444;
-    margin: 0;
-    padding: 0;
-    /*background: linear-gradient(to bottom, #EEF5DB, #B8D8D8, #FE5F55);*/
 
 }
 
@@ -126,16 +110,6 @@ ul.errorlist {
     border-radius: 4px;
 }
 
-
-#subheader {
-    background: #ececec;
-    padding: 10px 100px;
-    overflow: auto;
-    margin-top: 2%;
-
-
-}
-
 .author-detail {
     border-radius: 4px;
     padding: 10px 50px 20px;
@@ -146,56 +120,6 @@ ul.errorlist {
     margin-top: 70px;
 }
 
-
-#header .logo {
-    color: #000000;
-    font-size: 50px;
-    padding: 10px 70px 16px 0;
-
-}
-
-#subheader .basket {
-    float: right;
-    padding-top: 5px;
-
-}
-
-#content {
-    padding: 0 100px;
-    overflow: hidden;
-}
-
-#sidebar {
-    width: 220px;
-    padding: 30px 20px 0 0;
-    float: left;
-}
-
-#sidebar ul {
-    margin: 0;
-    padding: 0;
-
-}
-
-#sidebar ul li {
-    margin: 0;
-    list-style: none;
-    padding: 10px 14px;
-}
-
-#sidebar ul li a {
-    display: block;
-}
-
-#sidebar ul li.selected {
-    background: #5993bb;
-    border-radius: 4px;
-
-}
-
-#sidebar ul li.selected a {
-    color: #fff;
-}
 
 .index {
     height: 120vh;
@@ -213,14 +137,6 @@ ul.errorlist {
     margin: 1em;
     margin-bottom: 10px;
 
-
-}
-
-#main {
-    float: left;
-    width: 96%;
-    margin-right: -220px;
-    overflow: hidden;
 }
 
 .book-list .item {
@@ -236,23 +152,16 @@ ul.errorlist {
     width: 90%;
     left: 10%;
     margin-bottom: 10px;
-
-
 }
-
 
 .book-detail {
     width: 100%;
-
     padding: 50px 50px 20px;
     text-align: right;
     background: linear-gradient(to bottom, #F8F8F8, #94C5CC);
     margin-top: -570px;
 
-
 }
-
-
 
 .book-detail img {
     width: 450px;
@@ -263,7 +172,6 @@ ul.errorlist {
 
 
 }
-
 
 .book-detail h1 {
     margin-bottom: 0;
@@ -314,14 +222,6 @@ ul.errorlist {
 }
 
 
-/* Current/active navbar link */
-.active {
-    background-color: #04AA6D;
-
-}
-
-
-
 .status1 {
     color: #155724;
     background-color: #d4edda;
@@ -358,6 +258,7 @@ ul.errorlist {
     padding: 8px;
     margin-bottom: 0;
 }
+
 .status5 {
     color: #8a6d3b;
     background-color: red;
@@ -367,7 +268,7 @@ ul.errorlist {
     margin-bottom: 0;
 }
 
-.registration-form input{
+.registration-form input {
     display: block;
     width: 100%;
     height: calc(2.25rem + 2px);
@@ -379,51 +280,58 @@ ul.errorlist {
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-.signin-form, .signup-form{
-  margin-top:20px;
-  border: 1px solid #B9C8B9;
-  border-radius: 5px;
-  padding: 15px;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
-.signin-form input, .signup-form input{
-  border: 1px solid #a6a6a6;
-  border-top-color: #949494;
-  border-radius: 3px;
-  box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(0,0,0,.07) inset;
-  outline: 0;
+.signin-form, .signup-form {
+    margin-top: 20px;
+    border: 1px solid #B9C8B9;
+    border-radius: 5px;
+    padding: 15px;
 }
-.signin-form h3, .signup-form h3{
-  font-family: "Times New Roman", Times, serif;
+
+.signin-form input, .signup-form input {
+    border: 1px solid #a6a6a6;
+    border-top-color: #949494;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .5), 0 1px 0 rgba(0, 0, 0, .07) inset;
+    outline: 0;
 }
-.signin-form a, .signup-form a{
-  text-decoration: none;
-  color: #0066c0;
+
+.signin-form h3, .signup-form h3 {
+    font-family: "Times New Roman", Times, serif;
 }
-.signin-form label, .signup-form label{
-  font-size: 13px;
-  font-weight: bold;
-  margin-bottom: 0;
+
+.signin-form a, .signup-form a {
+    text-decoration: none;
+    color: #0066c0;
 }
-.auth-validate-form button{
-  font-size: 13px;
-  font-family: Arial, Helvetica, sans-serif;
-  width: 100%;
-  background: #f0c14b;
-  margin: 8px 0;
-  border: 1px solid #c19a39;
+
+.signin-form label, .signup-form label {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 0;
 }
-.signin-form .btn-default{
-  background: #e7e9ec;
-  border: 1px solid #cfd4da;
-  width: 100%;
-  color: #111;
-  font-size: 13px;
-  font-family: Arial, Helvetica, sans-serif;
+
+.auth-validate-form button {
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    background: #f0c14b;
+    margin: 8px 0;
+    border: 1px solid #c19a39;
+}
+
+.signin-form .btn-default {
+    background: #e7e9ec;
+    border: 1px solid #cfd4da;
+    width: 100%;
+    color: #111;
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
 
 }
+
 .a-divider-break {
     text-align: center;
     position: relative;
@@ -433,6 +341,7 @@ ul.errorlist {
     margin-bottom: 14px;
     line-height: 0;
 }
+
 .a-divider-break h5 {
     line-height: 1;
     font-size: 12px;
@@ -444,6 +353,7 @@ ul.errorlist {
     background-color: #fff;
     padding: 0 8px 0 7px;
 }
+
 .a-divider-break:after {
     content: "";
     width: 100%;
