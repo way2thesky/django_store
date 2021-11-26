@@ -12,7 +12,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = ['url', 'id', 'name', 'slug']
+        fields = ['id', 'name', 'slug']
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -33,7 +33,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'first_name', 'last_name', 'email', 'phone_number', 'status', 'items']
+        fields = ['id', 'first_name', 'last_name', 'email', 'phone_number', 'status', 'comment', 'items']
 
     def create(self, validated_data):
         valid_data = validated_data.pop('order_item_set')
