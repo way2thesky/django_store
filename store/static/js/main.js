@@ -1,23 +1,23 @@
 $(document).on('ready', function() {
-	$("body").on("click", "#addTobasket", function(event){
+	$("body").on("click", "#addTocart", function(event){
 		var id = $(this).attr("data-book-id");
 		event.preventDefault();
 		$.ajax({
-			url : "../basket/add/"+id,
+			url : "../cart/add/"+id,
 			data : {bookid:1},
 			success : function(data){
 
-				$("#snackbar").html("Add To Basket");
+				$("#snackbar").html("Add To Cart");
 				var x = document.getElementById("snackbar");
 				x.className = "show";
 				setTimeout(function(){ x.className = x.className.replace("show", ""); }, 1000);
-				totalBasket();
+				totalCart();
 			}
 		})
 	});
 
 
-	$('#demo3').slider({
+	$('#demo3').skdslider({
 		delay:2000,
 		animationSpeed: 1000,
 		showNextPrev:true,
@@ -147,11 +147,11 @@ $(document).on('ready', function() {
 
 });
 
-function totalBasket(){
+function totalCart(){
 	$.ajax({
-		url: "../basket/total_basket",
+		url: "../cart/totalcart",
 		success: function(data){
-			$("#gettotalbasket").html(data);
+			$("#gettotalcart").html(data);
 			console.log(data)
 		}
 	})

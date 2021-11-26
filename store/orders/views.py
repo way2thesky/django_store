@@ -3,14 +3,11 @@ from basket.basket import Basket
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
-from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views import View
 
 from .forms import OrderItemsForm
 from .models import Order, OrderItem
-from .pdfcreator import renderPdf
 
 User = get_user_model()
 
@@ -22,19 +19,6 @@ def order_list(request):
     myorder = paginator.get_page(page)
 
     return render(request, 'orders/list.html', {"myorder": myorder})
-
-
-class pdf(View):
-    def get(self, request, id):
-        try:
-            query = get_object_or_404(Order, id=id)
-        except:
-            Http404('Content not found')
-        context = {
-            "order": query
-        }
-        article_pdf = renderPdf('orders/pdf.html', context)
-        return HttpResponse(article_pdf, content_type='application/pdf')
 
 
 def order_create(request):

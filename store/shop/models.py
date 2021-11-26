@@ -53,6 +53,8 @@ class Book(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     available = models.BooleanField(default=True)
     quantity = models.IntegerField()
+    totalreview = models.IntegerField(default=1)
+    totalrating = models.IntegerField(default=5)
 
     class Meta:
         ordering = ('title',)
@@ -72,21 +74,12 @@ class Book(models.Model):
     display_genre.short_description = 'Genre'
 
 
-class Comment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+class Review(models.Model):
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    comment = models.TextField(max_length=10000,
-                               help_text="Input your comment.")
-    rating = models.PositiveSmallIntegerField(
-        choices=(
-            (1, "★☆☆☆☆"),
-            (2, "★★☆☆☆"),
-            (3, "★★★☆☆"),
-            (4, "★★★★☆"),
-            (5, "★★★★★"),
-        )
-
-    )
+    review_star = models.IntegerField()
+    review_text = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.author
+        return self.review_text

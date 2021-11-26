@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
-from shop.models import Comment
+from shop.models import Review
 
 User = get_user_model()
 
@@ -24,14 +24,14 @@ class ContactForm(forms.Form):
 
 
 class ReviewForm(forms.ModelForm):
-    rating = forms.IntegerField(widget=forms.HiddenInput(), initial=1)
-    comment = forms.CharField(widget=forms.Textarea(attrs={'rows': 4, 'placeholder': 'Write Your Review'}))
+    review_star = forms.IntegerField(widget=forms.HiddenInput(), initial=1)
+    review_text = forms.CharField(widget=forms.Textarea(attrs={'rows': 4, 'placeholder': 'Write Your Review'}))
 
     class Meta:
-        model = Comment
+        model = Review
         fields = [
-            'rating',
-            'comment'
+            'review_star',
+            'review_text'
         ]
 
     def __init__(self, *args, **kwargs):
