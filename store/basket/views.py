@@ -1,18 +1,15 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.forms import modelformset_factory
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404, redirect, render
 
-from orders.models import Order, OrderItem
 from shop.models import Book
+
 from .basket import Basket
+from .cart import Cart
 from .forms import BasketAddBookForm
 
 
-@require_POST
-def basket_add(request, book_id):
-    basket = Basket(request)
+def basket_update(request, book_id):
+    basket = Cart(request)
     book = get_object_or_404(Book, id=book_id)
     form = BasketAddBookForm(data=request.POST, product=book, cart=basket)
     if form.is_valid():
@@ -23,14 +20,29 @@ def basket_add(request, book_id):
         messages.success(request, "Item added to the cart!")
 
     else:
-        # add error message using django messages
         messages.error(request, "TOO MANY BOOKS")
 
-        print(form.errors)
+        print(form.errors)   # noqa:T001
     return redirect('basket:basket_detail')
 
 
-@require_POST
+def basket_add(request, book_id):
+    basket = Basket(request)
+    book = get_object_or_404(Book, id=book_id)
+    basket.add(book=book)
+
+    return redirect(book)
+
+
+def basket_detail(request):
+    basket = Cart(request)
+    for item in basket:
+        item['update_quantity_form'] = BasketAddBookForm(initial={'quantity': item['quantity'],
+                                                                  'override': True}, cart=basket,
+                                                         product=Book.objects.get(id=item["pk"]))
+    return render(request, 'basket/basket_detail.html', {'basket': basket})
+
+
 def basket_remove(request, book_id):
     basket = Basket(request)
     book = get_object_or_404(Book, id=book_id)
@@ -38,10 +50,5 @@ def basket_remove(request, book_id):
     return redirect('basket:basket_detail')
 
 
-def basket_detail(request):
-    basket = Basket(request)
-    for item in basket:
-        item['update_quantity_form'] = BasketAddBookForm(initial={'quantity': item['quantity'],
-                                                                  'override': True}, cart=basket,
-                                                         product=Book.objects.get(id=item["pk"]))
-    return render(request, 'basket/basket_detail.html', {'basket': basket})
+def basket_summary(request):
+    return render(request, 'basket/summary.html')

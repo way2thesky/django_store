@@ -1,71 +1,141 @@
 {% extends "shop/../includes/nav_header.html" %}
 {% load static %}
+{% load customfunction %}
 
 {% block title %}
-  Your shopping Basket
+    Your shopping Basket
 {% endblock %}
 
 {% block content %}
-        <div class="col-sm-10 ">
+    <style>
+        .aside {
+            float: left;
+            width: 60%;
+            margin: 0 1.5%;
+    padding:70px 50px 20px;
 
-  <h1>Your shopping Basket</h1>
-  <table class="basket">
-    <thead>
-      <tr>
-        <th>Image</th>
-        <th>Book</th>
-        <th>Quantity</th>
-        <th>Remove</th>
-        <th>Unit price</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in basket %}
-        {% with book=item.book %}
-          <tr>
-            <td>
-              <a href="{{ book.get_absolute_url }}">
-                <img src="{% if book.image %}{{ book.image.url }}
+        }
+
+        .section {
+
+            float: right;
+            width: 30%;
+
+            margin-top: 8%;
+            margin-right: 50px;
+
+        }
+
+
+    </style>
+
+
+    <div class="section" id="abc">
+
+    </div>
+
+{#    <div class="back"><a href="{% url 'shop:book_list' %}" class="btn btn-danger _to_shope ">Continue Shopping</a>#}
+{##}
+{#    </div>#}
+    <div class="aside ">
+
+        <h1>Your shopping Basket</h1>
+        <table class="basket">
+            <thead>
+            <tr>
+                <th>Image</th>
+                <th>Book</th>
+                <th>Quantity</th>
+                <th>Remove</th>
+                <th>Unit price</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in basket %}
+                {% with book=item.book %}
+                    <tr>
+                        <td>
+                            <a href="{{ book.get_absolute_url }}">
+                                <img src="{% if book.image %}{{ book.image.url }}
                 {% else %}{% static "img/no_image.png" %}{% endif %}" alt="">
-              </a>
-            </td>
-            <td>{{ book.title }}</td>
-            <td>
-              <form action="{% url "basket:basket_add" book.id %}" method="post">
-                {{ item.update_quantity_form.quantity }}
-                {{ item.update_quantity_form.override }}
-                <input type="submit" value="Update">
-                {% csrf_token %}
-              </form>
-            </td>
-            <td>
-              <form action="{% url "basket:basket_remove" book.id %}" method="post">
-                <input type="submit" value="Remove">
-                {% csrf_token %}
-              </form>
-            </td>
-            <td class="num">₴{{ item.price }}</td>
-            <td class="num">₴{{ item.total_price }}</td>
-          </tr>
-        {% endwith %}
-      {% endfor %}
+                            </a>
+                        </td>
+                        <td>{{ book.title }}</td>
+                        <td>
+                            <form action="{% url "basket:basket_update" book.id %}" method="post">
+                                {{ item.update_quantity_form.quantity }}
+                                {{ item.update_quantity_form.override }}
+                                <input type="submit" value="Update">
+                                {% csrf_token %}
+                            </form>
+                        </td>
+                        <td>
+                            <form action="{% url "basket:basket_remove" book.id %}" method="post">
+                                <input type="submit" value="Remove">
+                                {% csrf_token %}
+                            </form>
+                        </td>
+                        <td class="num">₴{{ item.price }}</td>
+                        <td class="num">₴{{ item.total_price }}</td>
+                    </tr>
+                {% endwith %}
+            {% endfor %}
 
-      <tr class="total">
-        <td></td>
-        <td colspan="4"></td>
-        <td class="num">Total: <br>{{ basket.get_total_price }} ₴ </td>
-      </tr>
-    </tbody>
-  </table>
-  <p class="text-right">
-    <a href="{% url "shop:book_list" %}" class="button
-    light">Continue shopping</a>
-    <a href="{% url "orders:order_create" %}" class="button">
-      Checkout
-    </a>
-  </p>
-        </div>
-        {% block footer %}
+            <tr class="total">
+                <td></td>
+                <td colspan="4"></td>
+                <td class="num">Total: <br>{{ basket.get_total_price|payabletotal }} ₴</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </div>						<div class="continue text-center">
+<a href="{% url 'shop:book_list' %}" class="btn btn-danger _to_shope ">Continue Shopping</a>
+        <a href="{% url 'orders:order_create' %}" class="btn btn-primary _to_continue">Checkout</a>
+    </div>
 {% endblock %}
+
+
+
+
+
+{% block scripts %}
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            summary();
+
+        });
+
+        function summary() {
+            $.ajax({
+                url: "summary",
+                type: "GET",
+                success: function (data) {
+                    $("#abc").html(data);
+                }
+            })
+        }
+
+        function updateCartItem(obj, id) {
+            $.ajax({
+                url: "update/" + id + "/" + obj.value,
+                type: "GET",
+                data: {
+                    bookid: id,
+                    quantity: obj.value
+                },
+                success: function (data) {
+                    $("#" + (id.toString())).html(data);
+                    summary();
+                    totalCart();
+                }
+            })
+        }
+
+    </script>
+{% endblock %}
+{% block sidebar %}
 {% endblock %}

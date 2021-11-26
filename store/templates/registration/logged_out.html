@@ -1,10 +1,11 @@
 {% extends "shop/../includes/nav_header.html" %}
 
 {% block content %}
+        <div class="index">
+
   <p>Logged out!</p>
 
   <a href="{% url 'login' %}">Click here to login again.</a>
+        </div>
 
-    {% block footer %}
-{% endblock %}
 {% endblock %}

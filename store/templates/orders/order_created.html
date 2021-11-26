@@ -1,13 +1,44 @@
-{% extends "shop/../includes/nav_header.html" %}
+{% extends 'includes/nav_header.html' %}
+{% load static %}
 
-{% block title %}
-  Thank you
-{% endblock %}
+{% block container %}
+    <div class="container">
+        <div class="col-md-12 cart_info">
+            <div class="successful-order text-center">
+                <i class="fa fa-check"></i>
+                <h3 class="page-header">Thank you for you purchase!</h3>
+            </div>
+            <div class="ordered-info">
+                <h5>OrderID: <span>#2018{{ order.id }}</span></h5>
+                <h5>Book: <span>{{ order.total_book }}</span></h5>
+                <h5>Customer: <span>{{ order.first_name }} {{ order.last_name }}</span></h5>
+                <h5>Phone: <span>{{ order.phone_number }}</span></h5>
+                <h5>Email: <span>{{ order.email }}</span></h5>
+                <h5>Order Created: <span>{{ order.created }}</span></h5>
+                <h5>Delivery: <span>{{ order.postal_code }}, {{ order.city }}, {{ order.address }}</span></h5>
 
-{% block content %}
-  <h1>Thank you</h1>
-  <p>Your order has been successfully completed. Your order number is
-  <strong>{{ order }}</strong>.</p>
-        {% block footer %}
+
+            </div>
+                  {% for item in order.items.all %}
+        <tr class="row{% cycle "1" "2" %}">
+          <td>{{ item.product.name }}</td>
+          <td class="num">${{ item.price }}</td>
+          <td class="num">{{ item.quantity }}</td>
+          <td class="num">${{ item.get_cost }}</td>
+        </tr>
+      {% endfor %}
+      <tr class="total">
+        <td colspan="3">Total</td>
+        <td class="num">${{ order.get_total_cost }}</td>
+      </tr>
+
+
+            <div class="download-info">
+                <a href="{% url 'orders:pdf' order.id  %}"><i class="fa fa-download" aria-hidden="true"></i></a>
+
+            </div>
+        </div>
+    </div>
 {% endblock %}
+    {% block sidebar %}
 {% endblock %}

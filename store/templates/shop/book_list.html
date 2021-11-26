@@ -1,4 +1,4 @@
-{% extends "shop/../includes/nav_header.html" %}
+{% extends "includes/nav_header.html" %}
 
 
 
@@ -8,10 +8,7 @@
 
 {% block content %}
 
-
-
-
-        <h1>{% if genre %}{{ genre.name }}{% else %}{% endif %}</h1>
+    <div class="index">
 
         <div class="card-deck">
 
@@ -45,10 +42,11 @@
                                 {% endif %}
 
                             </h2>
-                            <button class="btn btn-warning" id="addTocart" data-book-id="{{ book.id }}">
-                                <i class="fa fa-shopping-cart"></i>Add to cart
-                            </button>
+                                                    <a href="{{ book.get_absolute_url }}" class="btn btn-danger">Read More &rarr;</a>
+
+
                             <br><br>
+
 
                         </div>
 
@@ -58,5 +56,6 @@
 
             {% endfor %}
         </div>
+    </div>
 
 {% endblock %}

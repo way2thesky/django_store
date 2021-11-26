@@ -3,8 +3,9 @@ from urllib.parse import urlparse
 
 from celery import shared_task
 
-import requests
 from django.core.files.base import ContentFile
+
+import requests
 
 from .models import Author, Book, Genre
 
@@ -13,11 +14,11 @@ from .models import Author, Book, Genre
 def shop_sync():
     try:
 
-        print('Starting update from warehouse api for database')
-        print('Getting data from api...')
+        print('Starting update from warehouse api for database')  # noqa:T001
+        print('Getting data from api...')  # noqa:T001
 
         url = 'http://warehouse:8001/genres/'
-        print('Clearing data...')
+        print('Clearing data...')  # noqa:T001
 
         while url and (response_genres := requests.get(url)).status_code == requests.codes.ok:
             for genre_data in response_genres.json()['results']:
@@ -30,7 +31,7 @@ def shop_sync():
             url = response_genres.json()['next']
 
         url = 'http://warehouse:8001/authors/'
-        print('Clearing data...')
+        print('Clearing data...')  # noqa:T001
 
         while url and (response_authors := requests.get(url)).status_code == requests.codes.ok:
             for author_data in response_authors.json()['results']:
@@ -47,7 +48,7 @@ def shop_sync():
             url = response_authors.json()['next']
 
         url = 'http://warehouse:8001/books/'
-        print('Clearing data...')
+        print('Clearing data...')  # noqa:T001
         while url and (response_books := requests.get(url)).status_code == requests.codes.ok:
             for book_data in response_books.json()['results']:
                 book, created = Book.objects.update_or_create(
@@ -90,4 +91,4 @@ def shop_sync():
     except Exception as e:
         print('Synchronization of two databases failed. See exception:')  # noqa:T001
         print(e)  # noqa:T001
-    print('Database was updated from warehouse api')
+    print('Database was updated from warehouse api')  # noqa:T001

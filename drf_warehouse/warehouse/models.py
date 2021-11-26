@@ -1,8 +1,6 @@
-from django.urls import reverse
-import uuid
 from django.contrib.auth.models import User
-
 from django.db import models
+from django.urls import reverse
 
 
 class Author(models.Model):
@@ -51,9 +49,11 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
     def display_genre(self):
         """Creates a string for the Genre. This is required to display genre in Admin."""
         return ', '.join([genre.name for genre in self.genre.all()[:3]])
+
 
 class Order(models.Model):
     class OrderStatus(models.IntegerChoices):
@@ -64,7 +64,6 @@ class Order(models.Model):
         CANCELLED = 5, 'Cancelled from warehouse'
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
@@ -95,16 +94,3 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return str(self.id)
-
-
-class BookInstance(models.Model):
-    class InstanceStatus(models.IntegerChoices):
-        RESERVED = 1, 'Reserved',
-        IN_STOCK = 2, 'In stock',
-        SOLD = 3, 'Sold'
-
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    item_of_order = models.ForeignKey(OrderItem, on_delete=models.CASCADE)
-    book_status = models.PositiveSmallIntegerField(
-        choices=InstanceStatus.choices, default=InstanceStatus.IN_STOCK
-    )

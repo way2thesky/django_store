@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Genre, Book, Author
+
+from .models import Author, Book, Genre
 
 
 class BooksInline(admin.TabularInline):
@@ -13,13 +14,10 @@ class AuthorAdmin(admin.ModelAdmin):
     inlines = [BooksInline]
 
 
-
-
-
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = ('author', 'title', 'slug', 'price',
-                    'available', 'quantity','display_genre')
+                    'available', 'quantity', 'display_genre')
     list_filter = ['available', 'created']
     list_editable = ['price', 'available']
     prepopulated_fields = {'slug': ('title',)}

@@ -1,45 +1,51 @@
-import difflib
-import functools
+from basket.basket import Basket
+from basket.forms import BasketAddBookForm
 
-from django.contrib.admin.templatetags.admin_list import results
-from django.contrib.auth import authenticate, login, get_user_model
+import braintree
+
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import authenticate, get_user_model, login
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.http import JsonResponse, Http404, BadHeaderError
-from django.shortcuts import render, get_object_or_404, redirect
-from django.template.loader import render_to_string
+from django.http import BadHeaderError
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
-from django.contrib import messages
-from django.views.generic import ListView, TemplateView
 
-from basket.basket import Basket
-from basket.forms import BasketAddBookForm
-from .forms import RegisterForm, ContactForm
-from .models import Genre, Book, Author, Slider
+from orders.models import Order
+from orders.tasks import payment_completed
+
+from .forms import ContactForm, RegisterForm
+from .models import Author, Book, Genre
+
+gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
 
 User = get_user_model()
 
-class GenreYear:
-    """Жанры и года выхода фильмов"""
-
-    def get_genres(self):
-        return Genre.objects.all()
-
-def about(request):
-    return render(request, "shop/about.html")
-
 
 def index(request):
-    new_published = Book.objects.order_by('-created')[:15]
-    slide = Slider.objects.order_by('-created')[:3]
+    return render(request, 'index.html')
 
-    context = {
-        "new_books": new_published,
-        "slide": slide,
-    }
-    return render(request, 'index.html', context)
+
+# ------------------------Register----------------------------#
+
+def signin(request):
+    if request.user.is_authenticated:
+        return redirect('shop:book_list')
+    else:
+        if request.method == "POST":
+            user = request.POST.get('user')
+            password = request.POST.get('pass')
+            auth = authenticate(request, username=user, password=password)
+            if auth is not None:
+                login(request, auth)
+                return redirect('shop:book_list')
+            else:
+                messages.error(request, 'username and password doesn\'t match')
+
+    return render(request, "registration/login.html")
 
 
 class RegisterFormView(generic.FormView):
@@ -57,6 +63,8 @@ class RegisterFormView(generic.FormView):
         login(self.request, user)
         return super(RegisterFormView, self).form_valid(form)
 
+
+# ------------------------Book Page----------------------------#
 
 def book_list(request, genre_slug=None):
     genre = None
@@ -84,12 +92,9 @@ def book_detail(request, book_slug):
                              slug=book_slug,
                              available=True)
     if request.method == "POST":
-        basket_book_form = BasketAddBookForm(data=request.POST, product=book, cart=basket)
+        basket_book_form = BasketAddBookForm(data=request.POST, product=book, basket=basket)
         if basket_book_form.is_valid():
-            item = basket_book_form.cleaned_data
-            basket.add(book=book,
-                       quantity=item['quantity'],
-                       override_quantity=item['override'])
+            basket.add(book=book)
             return redirect('basket:basket_detail')
     else:
         basket_book_form = BasketAddBookForm(product=book, cart=basket)
@@ -103,6 +108,8 @@ def book_detail(request, book_slug):
                    'genres': genres})
 
 
+# ------------------------Author Page----------------------------#
+
 class AuthorDetailView(generic.DetailView):
     model = Author
     template_name = 'shop/author_detail_page.html'
@@ -111,6 +118,11 @@ class AuthorDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
+
+# ------------------------Contact US + About----------------------------#
+def about(request):
+    return render(request, "shop/about.html")
 
 
 def contact(request):
@@ -137,13 +149,14 @@ def contact(request):
     )
 
 
+# ------------------------Search----------------------------#
+
 def search(request):
     search = request.GET.get('q')
     books = Book.objects.all()
     if search:
         books = books.filter(
             Q(title__icontains=search) | Q(genre__name__icontains=search) | Q(author__first_name__icontains=search)
-
         )
 
     paginator = Paginator(books, 10)
@@ -156,3 +169,48 @@ def search(request):
     }
     return render(request, 'shop/search.html', context)
 
+
+# ------------------------Payment----------------------------#
+
+def payment_process(request):
+    order_id = request.session.get('order_id')
+    order = get_object_or_404(Order, id=order_id)
+    total_cost = order.get_total_cost()
+
+    if request.method == 'POST':
+        # retrieve nonce
+        nonce = request.POST.get('payment_method_nonce', None)
+        # create and submit transaction
+        result = gateway.transaction.sale({
+            'amount': f'{total_cost:.2f}',
+            'payment_method_nonce': nonce,
+            'options': {
+                'submit_for_settlement': True
+            }
+        })
+        if result.is_success:
+            # mark the order as paid
+            order.paid = True
+            # store the unique transaction id
+            order.braintree_id = result.transaction.id
+            order.save()
+            # launch asynchronous task
+            payment_completed.delay(order.id)
+            return redirect('shop:done')
+        else:
+            return redirect('shop:canceled')
+    else:
+        client_token = gateway.client_token.generate()
+
+        return render(request,
+                      'payment/process.html',
+                      {'order': order,
+                       'client_token': client_token})
+
+
+def payment_done(request):
+    return render(request, 'payment/done.html')
+
+
+def payment_canceled(request):
+    return render(request, 'payment/canceled.html')

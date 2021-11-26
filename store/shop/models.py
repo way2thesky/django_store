@@ -1,6 +1,6 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
@@ -37,14 +37,14 @@ class Genre(models.Model):
 
 class Book(models.Model):
     author = models.ForeignKey('Author', on_delete=models.CASCADE, null=True)
-    genre = models.ForeignKey('Genre', on_delete=models.CASCADE, null=True)
+    genre = models.ManyToManyField(Genre, blank=True, related_name='books', )
     publication_year = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     language = models.CharField("language", max_length=20)
     pages = models.IntegerField()
     image = models.ImageField(upload_to='products/%Y/%m/%d')
-    slug = models.SlugField(max_length=255, null=False, unique=True)
+    slug = models.SlugField(max_length=255, null=False, unique=True, db_index=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
     isbn = models.CharField('ISBN', max_length=13,
@@ -88,12 +88,5 @@ class Comment(models.Model):
 
     )
 
-
-class Slider(models.Model):
-    title = models.CharField(max_length=150)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    slideimg = models.FileField(upload_to="slide/")
-
     def __str__(self):
-        return self.title
+        return self.author

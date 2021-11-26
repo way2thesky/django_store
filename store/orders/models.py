@@ -1,7 +1,4 @@
-import uuid
-
 from django.contrib.auth import get_user_model
-
 from django.db import models
 
 from shop.models import Book
@@ -18,7 +15,6 @@ class Order(models.Model):
         CANCELLED = 5, 'Cancelled from warehouse'
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
@@ -27,17 +23,20 @@ class Order(models.Model):
     postal_code = models.CharField(max_length=10)
     city = models.CharField(max_length=50)
     created = models.DateTimeField(auto_now_add=True)
-    order_date = models.DateField('order date', null=True, blank=True, help_text='Date when order was created')
-
-    status = models.PositiveSmallIntegerField(
-        choices=OrderStatus.choices, default=OrderStatus.WAITING)
+    paid = models.BooleanField(default=False)
+    status = models.SmallIntegerField(
+                              choices=OrderStatus.choices, default=OrderStatus.WAITING)
     comment = models.CharField('comment', max_length=20, blank=True)
+    total_book = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return f'{self.id}'
 
     def order_id(self):
         return self.id.__str__()
+
+    def get_total_cost(self):
+        return sum(item.get_cost() for item in self.items.all())
 
 
 class OrderItem(models.Model):
@@ -51,7 +50,7 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return str(self.id)
+        return '{}'.format(self.id)
 
     def get_cost(self):
         return self.price * self.quantity

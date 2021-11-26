@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Author, Book, Order, OrderItem, Genre
+from .models import Author, Book, Genre, Order, OrderItem
 
 
 class AuthorSerializer(serializers.ModelSerializer):

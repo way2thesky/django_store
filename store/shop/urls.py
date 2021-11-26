@@ -1,7 +1,6 @@
-from django.conf.urls import url
 from django.urls import path
+
 from . import views
-# from .views import contact_form_ajax
 
 app_name = 'shop'
 
@@ -14,5 +13,12 @@ urlpatterns = [
     path('search-res/',
          views.search,
          name='search_results'),
+    path('login/', views.signin, name="login"),
+
 ]
 
+urlpatterns += [
+    path('process/', views.payment_process, name='process'),
+    path('done/', views.payment_done, name='done'),
+    path('canceled/', views.payment_canceled, name='canceled'),
+]

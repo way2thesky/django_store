@@ -8,36 +8,42 @@
 
 
 {% block content %}
+    <div class="index">
 
-    <div class="author-detail">
-        <br>
-
-
-        <h1>About {{ author.first_name }} {{ author.last_name }} </h1>
-        <br>
-
-        <p>{{ author.bio }}</p>
-
-    </div>
-
-    <br>
+        <div class="card-deck">
+            <div class="author-detail">
+                <br>
 
 
+                <h1>About {{ author.first_name }} {{ author.last_name }} </h1>
+                <br>
 
-    <div class="card-deck">
+                <p>{{ author.bio }}</p>
 
-        {% for book in author.book_set.all %}
-            <div class="book">
-                <div class="tar">
-
-                    <a href="{{ book.get_absolute_url }}"><img class="card-img-top" src="{{ book.image.url }}"
-                                                               alt="Responsive image"></a> <br>
-                    <a href="{{ book.get_absolute_url }}" class="card-text"><h3>{{ book|truncatechars_html:20 }}</h3></a>
-                    <div class="card-text font-weight-bold">{{ book.price }}₴</div>
-                    <br>
-                </div>
             </div>
-        {% endfor %}
+
+            <br>
+
+
+            <div class="card-deck">
+
+                {% for book in author.book_set.all %}
+                    <div class="book">
+                        <div class="tar">
+
+                            <a href="{{ book.get_absolute_url }}"><img class="card-img-top" src="{{ book.image.url }}"
+                                                                       alt="Responsive image"></a> <br>
+                            <a href="{{ book.get_absolute_url }}" class="card-text">
+                                <h3>{{ book|truncatechars_html:20 }}</h3></a>
+                            <div class="card-text font-weight-bold">{{ book.price }}₴</div>
+                            <br>
+                        </div>
+                        <a href="{{ book.get_absolute_url }}" class="btn btn-danger">Read More &rarr;</a>
+
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
 {% endblock %}

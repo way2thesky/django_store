@@ -1,0 +1,42 @@
+{% extends "includes/nav_header.html" %}
+{% load static %}
+{% block container %}
+    <div class="container">
+        <table class="table table-hover">
+            <thead class="text-center">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Order ID</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date</th>
+                <th scope="col">User</th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+            {% for morder in myorder %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><a href="{% url 'orders:order_list' %}">#2021/12/...{{ morder.id }}</a></td>
+                    <td class="text-center">
+                        {% if morder.status == 1 %}
+                            <p class="status1">WAITING</p>
+                        {% elif morder.status == 2 %}
+                            <p class="status2">IN_PROGRESS</p>
+                        {% elif morder.status == 3 %}
+                            <p class="status3">SENT</p>
+                        {% elif morder.status == 4 %}
+                            <p class="status4">COMPLETED</p>
+                        {% else %}
+                            <p class="status5">CANCELLED</p>
+                        {% endif %}
+                    </td>
+                    <td>{{ morder.created }}</td>
+                    <td>{{ morder.first_name }} {{ morder.last_name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% block sidebar %}
+    {% endblock %}
+{% endblock %}

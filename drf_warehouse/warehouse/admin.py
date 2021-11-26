@@ -1,9 +1,7 @@
 from django.contrib import admin
 
+from .models import Author, Book, Genre
 from .models import Order, OrderItem
-
-from django.contrib import admin
-from .models import Genre, Book, Author
 
 
 @admin.register(Order)

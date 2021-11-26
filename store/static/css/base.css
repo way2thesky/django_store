@@ -23,15 +23,15 @@ h4, h6 {
     border-radius: 4px;
     padding: 10px 20px;
     font-size: 14px;
-    border: 0;
     float: right;
+
 }
 
 body {
     color: #444;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to bottom, #EEF5DB, #B8D8D8, #FE5F55);
+    /*background: linear-gradient(to bottom, #EEF5DB, #B8D8D8, #FE5F55);*/
 
 }
 
@@ -66,11 +66,11 @@ table th, table td {
 }
 
 tbody tr:nth-child(odd) {
-    background: #efefef;
+    background: white;
 }
 
 tbody tr.subtotal {
-    background: #ccc;
+    background: red;
 }
 
 thead th, tbody tr.total {
@@ -197,15 +197,17 @@ ul.errorlist {
     color: #fff;
 }
 
-.book .tar {
-    margin-left: 10%;
+.index {
+    height: 120vh;
+    margin-top: -570px;
+    margin-left: 17%;
     text-align: center;
 
 }
 
 .book img {
-    width: 350px;
-    height: 500px;
+    width: 300px;
+    height: 450px;
     overflow: hidden;
     display: inline-block;
     margin: 1em;
@@ -240,29 +242,25 @@ ul.errorlist {
 
 
 .book-detail {
-    border-radius: 4px;
-    padding: 10px 50px 20px;
-    text-align: center;
-    background: linear-gradient(to bottom, #F8F8F8, #94C5CC, #94C5CC);
+    width: 100%;
 
-    font-size: 14px;
-    border: 0;
-    margin-top: 70px;
+    padding: 50px 50px 20px;
+    text-align: right;
+    background: linear-gradient(to bottom, #F8F8F8, #94C5CC);
+    margin-top: -570px;
+
 
 }
 
-.book-detail .price {
-    color: #333;
-    font-size: 28px;
-    font-weight: bold;
-}
+
 
 .book-detail img {
-    width: 350px;
-    height: 500px;
+    width: 450px;
+    height: 600px;
     float: left;
-    margin-right: 50px;
-    padding: 0 20px 20px 0;
+    margin-right: 75px;
+    margin-bottom: 50px;
+
 
 }
 
@@ -305,35 +303,66 @@ ul.errorlist {
 }
 
 
-
-
 /* Navbar links */
 .navbar a {
-  float: left;
-  text-align: center;
-  padding: 12px;
-  color: white;
-  text-decoration: none;
-  font-size: 20px;
+    float: left;
+    text-align: center;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
 }
 
 
 /* Current/active navbar link */
 .active {
-  background-color: #04AA6D;
+    background-color: #04AA6D;
 
 }
 
-/* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
-@media screen and (max-width: 500px) {
-  .navbar a {
-    float: none;
-    display: block;
-    font-size: 35px;
 
-  }
+
+.status1 {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    border-radius: 50px;
+    padding: 8px;
+    margin-bottom: 0;
 }
 
-.basket-head {
-float: right;
+.status2 {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    border-radius: 50px;
+    padding: 8px;
+    margin-bottom: 0;
+}
+
+.status3 {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    border-radius: 50px;
+    padding: 8px;
+    margin-bottom: 0;
+}
+
+
+.status4 {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    border-radius: 50px;
+    padding: 8px;
+    margin-bottom: 0;
+}
+.status5 {
+    color: #8a6d3b;
+    background-color: red;
+    border-color: #faebcc;
+    border-radius: 50px;
+    padding: 8px;
+    margin-bottom: 0;
 }

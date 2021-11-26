@@ -16,4 +16,4 @@ class BasketAddBookForm(forms.Form):
         quantity = self.cleaned_data['quantity']
         in_stock = self.cart.basket.get(str(self.product.id), {}).get("quantity", 0)
         if quantity + in_stock > self.product.quantity:
-            self.add_error("quantity", "too many books: Check in Stock" )
+            self.add_error("quantity", "too many books: Check in Stock")
