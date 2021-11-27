@@ -45,5 +45,5 @@ Online Bookstore built with Django and DRF
 ## Приложение запущенно и доступно на порту 8000 Магазин / 8001 Склад
 
 
-# Схема UML структуры сайта. </p>
+# Схема UML проекта </p>
 ![Bookstore overview jpg](graph.png)
