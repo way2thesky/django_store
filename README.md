@@ -43,3 +43,5 @@ Online Bookstore built with Django and DRF
        docker-compose up
       ```
 ### Приложение запущенно и доступно на порту 8000 Магазин / 8001 Склад
+
+![Bookstore overview jpg](graph.png)
