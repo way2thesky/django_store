@@ -1,10 +1,10 @@
 Online Bookstore built with Django and DRF
 ![Bookstore overview gif](readster.gif)
 
-# Выпускной проект во время обучения в Hillel IT School
-
+# Выпускной проект во время обучения в Hillel IT School 
 ## Technology Stack:
-* Django, DRF, JS, Docker, Docker Compose, Nginx, PostgreSQL, Redis, Rabbitmq, Celery, Mailhog, Bootstrap5, BRAINTREE
+* Django, DRF, JS, Docker, Docker Compose, Nginx, PostgreSQL, Redis, Rabbitmq, Celery, Mailhog, Bootstrap5, BRAINTREE, Microservice architecture
+
 
 ## Функции Магазина
 * Celery - периодически синхронизирует наличие книг из склада в магазин
@@ -25,5 +25,21 @@ Online Bookstore built with Django and DRF
 * Admin и Api. Менеджер иметь возможность через адмику добавлять книги (инстансы книг) и обрабатывать пришедшие заказы. 
 * PostgreSQL 
 
+## Использование
 
+1. Клонируем репозиторий с гитхаба
 
+    ```bash
+    git clone git@github.com:way2thesky/quiz_app.git
+    ```
+
+2. Устанавливаем docker и docker-compose
+
+3. Запускаем докер контейнеры и проект
+   1. ```bash
+       docker-compose build
+      ```
+   2. ```bash
+       docker-compose up
+      ```
+# Приложение запущенно и доступно на порту 8000 Магазин / 8001 Склад
