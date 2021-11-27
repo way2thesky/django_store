@@ -36,10 +36,10 @@ Online Bookstore built with Django and DRF
 2. Устанавливаем docker и docker-compose
 
 3. Запускаем докер контейнеры и проект
-   1. ```bash
+    ```bash
        docker-compose build
       ```
-   2. ```bash
+    ```bash
        docker-compose up
       ```
-# Приложение запущенно и доступно на порту 8000 Магазин / 8001 Склад
+## Приложение запущенно и доступно на порту 8000 Магазин / 8001 Склад
