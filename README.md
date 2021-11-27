@@ -3,7 +3,7 @@ Online Bookstore built with Django and DRF
 
 # Выпускной проект во время обучения в Hillel IT School 
 ## Technology Stack:
-* Django, DRF, JS, Docker, Docker Compose, Nginx, PostgreSQL, Redis, Rabbitmq, Celery, Mailhog, Bootstrap5, BRAINTREE, Microservice architecture
+* Django, DRF, JS, Docker, Docker Compose, Nginx, PostgreSQL, Redis, Rabbitmq, Celery, Mailhog, Bootstrap, BRAINTREE, Microservice architecture
 
 
 ## Функции Магазина
