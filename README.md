@@ -3,7 +3,10 @@ Online Bookstore built with Django and DRF
 
 # Выпускной проект во время обучения в Hillel IT School
 
-## Функции Магазина Использует вторую базу
+## Technology Stack:
+* Django, DRF, JS, Docker, Docker Compose, Nginx, PostgreSQL, Redis, Rabbitmq, Celery, Mailhog, Bootstrap5, BRAINTREE
+
+## Функции Магазина
 * Celery - периодически синхронизирует наличие книг из склада в магазин
 * Корзина (Пользователь не может добавить в корзину больше чем есть в наличие, Товар хранится в сессии)
 * Оформление заказа
@@ -18,10 +21,9 @@ Online Bookstore built with Django and DRF
 
 ## Mailhog - получает почту за пользователя о том что заказ оформлен и о том что заказ выполнен.
 
-## Функции Api - используется магазином что бы создать заказ. Использует первую базу.
+## Функции Api - используется магазином что бы создать заказ
 * Admin и Api. Кладовщик должен иметь возможность через адмику добавлять книги (инстансы книг) и обрабатывать пришедшие заказы. 
-  
+* PostgreSQL 
 
-## Technology Stack:
-* Django, DRF, JS, Docker, Docker Compose, Nginx, PostgreSQL, Redis, Rabbitmq, Celery, Mailhog, Bootstrap5, BRAINTREE
+
 
