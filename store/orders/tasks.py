@@ -2,8 +2,6 @@ import json
 
 from celery import shared_task
 
-from django.core.mail import send_mail as django_send_mail
-
 from orders.models import Order
 
 import requests
