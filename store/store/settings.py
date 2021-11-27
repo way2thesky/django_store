@@ -166,12 +166,12 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 # Braintree settings
-BRAINTREE_MERCHANT_ID = '9fwqmyfpsjkmr3g6'  # Merchant ID
-BRAINTREE_PUBLIC_KEY = 'qsgy6yhbwxk33r2r'  # Public Key
-BRAINTREE_PRIVATE_KEY = '748f601b62854d38ee7a21d6739868d0'  # Private key
+BRAINTREE_MERCHANT_ID = ''  # Merchant ID
+BRAINTREE_PUBLIC_KEY = ''  # Public Key
+BRAINTREE_PRIVATE_KEY = ''  # Private key
 
 BRAINTREE_CONF = braintree.Configuration(
     braintree.Environment.Sandbox,

@@ -13,6 +13,8 @@ from django.http import BadHeaderError
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
+from django.views.decorators.cache import cache_page   # NOQA
+from django.utils.decorators import method_decorator   # NOQA
 
 from orders.models import Order
 
@@ -64,7 +66,7 @@ class RegisterFormView(generic.FormView):
 
 
 # ------------------------Book Page----------------------------#
-
+@method_decorator(cache_page(20), name='dispatch')
 def book_list(request, genre_slug=None):
     genre = None
     genres = Genre.objects.all()
@@ -108,7 +110,7 @@ def book_detail(request, book_slug):
 
 
 # ------------------------Author Page----------------------------#
-
+@method_decorator(cache_page(20), name='dispatch')
 class AuthorDetailView(generic.DetailView):
     model = Author
     template_name = 'shop/author_detail_page.html'
@@ -149,7 +151,7 @@ def contact(request):
 
 
 # ------------------------Search----------------------------#
-
+@method_decorator(cache_page(20), name='dispatch')
 def search(request):
     search = request.GET.get('q')
     books = Book.objects.all()
