@@ -51,7 +51,7 @@ def order_create(request):
         if len(basket) > 0:
             return render(request, 'orders/order_create.html', {"form": form, 'basket': basket})
         else:
-            messages.error(request, "Your Cart is EMPTY")
+            messages.warning(request, "Your Basket is EMPTY")
             return redirect('/')
     else:
         return redirect('register')

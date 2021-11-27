@@ -37,9 +37,8 @@
                             {% endif %}
 
                         </h2>
-                        <button class="btn btn-warning" id="addTobasket" data-book-id="{{ book.id }}">
-                            <i class="fa fa-shopping-cart"></i>Add to Basket
-                        </button>
+                                                    <a href="{{ book.get_absolute_url }}" class="btn btn-danger">Read More &rarr;</a>
+
                         <br><br>
 
                     </div>
@@ -50,6 +49,5 @@
 
         {% endfor %}
     </div>  </div>
-{% include "includes/pagination.html" with page=posts %}
 
 {% endblock %}

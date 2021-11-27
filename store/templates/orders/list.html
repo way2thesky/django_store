@@ -1,7 +1,7 @@
 {% extends "includes/nav_header.html" %}
 {% load static %}
 {% block title %}
-  Orders List
+    Orders List
 {% endblock %}
 
 {% block container %}
@@ -13,9 +13,16 @@
                 <th scope="col">Order ID</th>
                 <th scope="col">Status</th>
                 <th scope="col">Date</th>
-                <th scope="col">User</th>
-                <th scope="col">Comment</th>
+                <th scope="col">Customer</th>
 
+
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+                <th scope="col">Order Price</th>
+                <th scope="col">Name of Books</th>
+                <th scope="col">Quantity in Order</th>
+                <th scope="col">Comment</th>
+                <th scope="col">Paid</th>
             </tr>
             </thead>
             <tbody class="text-center">
@@ -25,20 +32,37 @@
                     <td><a href="{% url 'orders:order_list' %}">#2021/12/...{{ morder.id }}</a></td>
                     <td class="text-center">
                         {% if morder.status == 1 %}
-                            <p class="status1">WAITING</p>
+                            <p class="status3">WAITING</p>
                         {% elif morder.status == 2 %}
                             <p class="status2">IN_PROGRESS</p>
                         {% elif morder.status == 3 %}
                             <p class="status3">SENT</p>
                         {% elif morder.status == 4 %}
-                            <p class="status4">COMPLETED</p>
+                            <p class="status1">COMPLETED</p>
                         {% else %}
                             <p class="status5">CANCELLED</p>
                         {% endif %}
                     </td>
                     <td>{{ morder.created }}</td>
                     <td>{{ morder.first_name }} {{ morder.last_name }}</td>
+                    <td>{{ morder.email }}</td>
+                    <td> {{ morder.address }}
+                        {{ morder.postal_code }}, {{ morder.city }}</td>
+
+                    {% for item in morder.items.all %}
+
+                        <td class="num">₴{{ item.price }}</td>
+                        <td class="num">{{ item.book.title }}</td>
+                        <td class="num">{{ item.quantity }}</td>
+                    {% endfor %}
                     <td>{{ morder.comment }}</td>
+                    <td class="text-center">
+                        {% if morder.paid == True or False %}
+                            <p class="status1">Confirmed</p>
+                        {% else %}
+                            <p class="status3">Processing</p>
+                        {% endif %}
+
                 </tr>
             {% endfor %}
             </tbody>

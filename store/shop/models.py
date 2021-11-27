@@ -49,7 +49,7 @@ class Book(models.Model):
 
     isbn = models.CharField('ISBN', max_length=13,
                             unique=True)
-    rating = models.FloatField(default=0, editable=False)
+    rating = models.IntegerField(default=0, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     available = models.BooleanField(default=True)
     quantity = models.IntegerField()

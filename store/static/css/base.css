@@ -116,8 +116,9 @@ ul.errorlist {
     text-align: center;
     background: linear-gradient(to bottom, #EEF5DB, #B8D8D8);
     font-size: 14px;
-    border: 0;
-    margin-top: 70px;
+
+    margin-right: 10%;
+
 }
 
 
@@ -225,7 +226,7 @@ ul.errorlist {
 .status1 {
     color: #155724;
     background-color: #d4edda;
-    border-color: #c3e6cb;
+    border-color: black;
     border-radius: 50px;
     padding: 8px;
     margin-bottom: 0;
@@ -233,8 +234,8 @@ ul.errorlist {
 
 .status2 {
     color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
+    background-color: #f4e26e;
+    border-color: black;
     border-radius: 50px;
     padding: 8px;
     margin-bottom: 0;
@@ -243,7 +244,7 @@ ul.errorlist {
 .status3 {
     color: #8a6d3b;
     background-color: #fcf8e3;
-    border-color: #faebcc;
+    border-color: black;
     border-radius: 50px;
     padding: 8px;
     margin-bottom: 0;
@@ -253,16 +254,16 @@ ul.errorlist {
 .status4 {
     color: #8a6d3b;
     background-color: #fcf8e3;
-    border-color: #faebcc;
+    border-color: black;
     border-radius: 50px;
     padding: 8px;
     margin-bottom: 0;
 }
 
 .status5 {
-    color: #8a6d3b;
+    color: black;
     background-color: red;
-    border-color: #faebcc;
+    border-color: black;
     border-radius: 50px;
     padding: 8px;
     margin-bottom: 0;
