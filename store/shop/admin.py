@@ -16,7 +16,7 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('author', 'title', 'slug', 'price','rating',
+    list_display = ('author', 'title', 'slug', 'price', 'rating',
                     'available', 'quantity', 'display_genre')
     list_filter = ['available', 'created']
     list_editable = ['price', 'available']
