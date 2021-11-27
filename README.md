@@ -42,6 +42,8 @@ Online Bookstore built with Django and DRF
     ```bash
        docker-compose up
       ```
-### Приложение запущенно и доступно на порту 8000 Магазин / 8001 Склад
+## Приложение запущенно и доступно на порту 8000 Магазин / 8001 Склад
 
+
+# Схема UML структуры сайта. </p>
 ![Bookstore overview jpg](graph.png)
