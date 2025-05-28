@@ -20,6 +20,7 @@ from orders.models import Order
 
 from .forms import ContactForm, RegisterForm
 from .models import Author, Book, Genre
+from django.views.decorators.cache import cache_page
 
 gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
 
@@ -66,7 +67,7 @@ class RegisterFormView(generic.FormView):
 
 
 # ------------------------Book Page----------------------------#
-@method_decorator(cache_page(20), name='dispatch')
+@cache_page(20)
 def book_list(request, genre_slug=None):
     genre = None
     genres = Genre.objects.all()

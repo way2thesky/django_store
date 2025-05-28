@@ -88,14 +88,15 @@ WSGI_APPLICATION = 'store.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dbshop',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'django_store',
         'USER': 'postgres',
-        'PASSWORD': 'postgdb',
-        'HOST': 'db_shop',
+        'PASSWORD': 'asdf1234',  # заміни на свій пароль
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -168,14 +169,12 @@ CELERY_TIMEZONE = TIME_ZONE
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-# Braintree settings
-BRAINTREE_MERCHANT_ID = ''  # Merchant ID
-BRAINTREE_PUBLIC_KEY = ''  # Public Key
-BRAINTREE_PRIVATE_KEY = ''  # Private key
-
-BRAINTREE_CONF = braintree.Configuration(
-    braintree.Environment.Sandbox,
-    BRAINTREE_MERCHANT_ID,
-    BRAINTREE_PUBLIC_KEY,
-    BRAINTREE_PRIVATE_KEY
-)
+if os.environ.get('BRAINTREE_MERCHANT_ID'):
+    BRAINTREE_CONF = braintree.Configuration(
+        braintree.Environment.Sandbox,
+        os.environ['BRAINTREE_MERCHANT_ID'],
+        os.environ['BRAINTREE_PUBLIC_KEY'],
+        os.environ['BRAINTREE_PRIVATE_KEY']
+    )
+else:
+    BRAINTREE_CONF = None  # Або логування, або заглушка

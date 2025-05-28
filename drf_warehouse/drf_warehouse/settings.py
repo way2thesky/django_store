@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'drf_warehouse.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dbwarehouse',
+        'NAME': 'dbshop',
         'USER': 'postgres',
         'PASSWORD': 'postgdb',
-        'HOST': 'db_warehouse',
-        'PORT': '5433',
+        'HOST': 'db_shop',
+        'PORT': '5432',
     }
 }
 
