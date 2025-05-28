@@ -14,12 +14,12 @@ ENV DJANGO_ENV=${DJANGO_ENV} \
     PIP_DEFAULT_TIMEOUT=100 \
     DOCKERIZE_VERSION=v0.6.1
 
-# Установка всіх потрібних бібліотек
+# 🧩 Всі необхідні залежності
 RUN apt-get update && apt-get install -y \
     build-essential \
-    curl \
     gcc \
     libpq-dev \
+    wget \
     libjpeg-dev \
     zlib1g-dev \
     libpng-dev \
@@ -31,27 +31,21 @@ RUN apt-get update && apt-get install -y \
     tcl8.6-dev \
     tk8.6-dev \
     python3-tk \
-    wget \
     && rm -rf /var/lib/apt/lists/*
 
-# Робоча директорія для установки залежностей
+# 🐍 Встановлюємо залежності Python
 WORKDIR /pysetup
-
 COPY ./drf_warehouse/requirements.txt .
-
-# Додатково ставимо wheel, бо Pillow цього часто вимагає
 RUN pip install --upgrade pip && pip install wheel && pip install -r requirements.txt
 
-# Встановлюємо dockerize
+# 🛠️ Встановлення Dockerize
 RUN wget "https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
     && tar -C /usr/local/bin -xzvf "dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
     && rm "dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz"
 
-# Копіюємо запускні скрипти
+# 🧷 Bash скрипти
 COPY ./docker/api_warehouse/docker-entrypoint.sh ./docker/api_warehouse/wait-for-command.sh ./docker/api_warehouse/runserver.sh /
 RUN chmod +x /docker-entrypoint.sh /wait-for-command.sh /runserver.sh
 
-# Робоча директорія з кодом
 WORKDIR /code
-
 ENTRYPOINT ["/docker-entrypoint.sh"]

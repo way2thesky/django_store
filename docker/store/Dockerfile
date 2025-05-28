@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     gcc \
     libpq-dev \
     wget \
+    curl \
     libjpeg-dev \
     zlib1g-dev \
     libpng-dev \
@@ -35,9 +36,11 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /pysetup
 
 COPY ./store/requirements.txt .
-RUN pip install --upgrade pip && pip install wheel && pip install -r requirements.txt
 
-# Installing `dockerize` utility:
+# 💡 Ключевой момент: ставим wheel и psycopg2-binary без сборки
+RUN pip install --upgrade pip && pip install wheel && pip install --no-binary :psycopg2: psycopg2-binary && pip install -r requirements.txt
+
+# Установка dockerize
 RUN wget "https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
     && tar -C /usr/local/bin -xzvf "dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
     && rm "dockerize-alpine-linux-amd64-${DOCKERIZE_VERSION}.tar.gz"

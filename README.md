@@ -1,49 +1,62 @@
-Online Bookstore built with Django and DRF
-![Bookstore overview gif](readster.gif)
+# 📚 Online Bookstore — Graduation Project at Hillel IT School
 
-# Выпускной проект во время обучения в Hillel IT School 
-## Technology Stack:
-* Django, DRF, Ajax, Docker, Docker Compose, Nginx, PostgreSQL, Redis, Rabbitmq, Celery, Mailhog, Bootstrap, BRAINTREE, Microservice architecture
+## 🧰 Technology Stack
 
+- **Back-end:** Django 3.2, Django REST Framework (DRF), Celery, Redis, RabbitMQ  
+- **Front-end:** Bootstrap, Ajax  
+- **Infrastructure:** Docker, Docker Compose, Nginx  
+- **Database:** PostgreSQL  
+- **Payment:** Braintree  
+- **Email Service:** Mailhog  
+- **Architecture:** Microservice-based (Store + Warehouse)
 
-## Функции Магазина
-* Celery - периодически синхронизирует наличие книг из склада в магазин
-* Корзина (Пользователь не может добавить в корзину больше чем есть в наличие, Товар хранится в сессии)
-* Оформление заказа
-* Оплата
-* Отправка заказа в API хранилища в формате json.
-* Возможность отследить заказ
-* Поиск
-* Регистрация
-* Фильтрация Книг по жанрам
-* PostgreSQL 
-* Есть кеширование
+---
 
-## Mailhog - получает почту за пользователя о том что заказ оформлен и о том что заказ выполнен.
+## 🛒 Store Features
 
-## Функции Api - используется магазином что бы создать заказ
-* Admin и Api. Менеджер иметь возможность через адмику добавлять книги (инстансы книг) и обрабатывать пришедшие заказы. 
-* PostgreSQL 
+- 🔄 **Celery** – periodically synchronizes book availability from the warehouse
+- 🧺 **Shopping Cart:**
+  - Items are stored in the session
+  - Users can't add more items than available in stock
+- 📦 **Order Placement and Tracking**
+- 💳 **Payment via Braintree**
+- 📤 **Order transmission to the warehouse API in JSON format**
+- 🔍 **Book Search and Genre Filtering**
+- 👤 **User Registration and Authentication**
+- 📬 **Email Notifications via Mailhog:**
+  - When an order is placed
+  - When an order is completed
+- 💾 **Caching Support**
+- 🛠️ **Admin Panel:**
+  - Managers can add books and manage orders
+- 🔗 **Warehouse API:**
+  - Used by the store service to create and retrieve order data
 
-## Использование
+---
 
-1. Клонируем репозиторий с гитхаба
+## 🚀 Getting Started
 
-    ```bash
-    git clone git@github.com:way2thesky/quiz_app.git
-    ```
+1. Clone the repository:
 
-2. Устанавливаем docker и docker-compose
+```bash
+git clone git@github.com:way2thesky/quiz_app.git
+```
 
-3. Запускаем докер контейнеры и проект
-    ```bash
-       docker-compose build
-      ```
-    ```bash
-       docker-compose up
-      ```
-## Приложение запущенно и доступно на порту 8000 Магазин / 8001 Склад
+2. Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
 
+3. Build and run the containers:
 
-# Схема UML проекта </p>
+```bash
+docker-compose build --no-cache
+docker-compose up
+```
+
+4. Access the app in your browser:
+- Store: http://localhost:8000  
+- Warehouse (API): http://localhost:8001
+
+---
+
+## 📊 UML Diagram
+
 ![Bookstore overview jpg](graph.png)
