@@ -39,7 +39,7 @@
 1. Clone the repository:
 
 ```bash
-git clone git@github.com:way2thesky/quiz_app.git
+git clone https://github.com/way2thesky/django_store.git
 ```
 
 2. Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
