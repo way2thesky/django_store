@@ -16,7 +16,7 @@ django-crispy-forms==1.13.0
 django-timezone-field==4.2.1
 idna==3.3
 kombu==5.2.2
-Pillow==8.4.0
+Pillow==10.2.0
 prompt-toolkit==3.0.22
 python-crontab==2.6.0
 python-dateutil==2.8.2
@@ -27,6 +27,6 @@ sqlparse==0.4.2
 urllib3==1.26.7
 vine==5.0.0
 wcwidth==0.2.5
-psycopg2-binary==2.9.1
+psycopg2-binary==2.9.9
 django-widget_tweaks==1.4.9
 djangorestframework==3.12.4

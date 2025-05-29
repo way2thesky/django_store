@@ -152,13 +152,15 @@ def contact(request):
 
 
 # ------------------------Search----------------------------#
-@method_decorator(cache_page(20), name='dispatch')
+@cache_page(20)
 def search(request):
     search = request.GET.get('q')
     books = Book.objects.all()
     if search:
         books = books.filter(
-            Q(title__icontains=search) | Q(genre__name__icontains=search) | Q(author__first_name__icontains=search)
+            Q(title__icontains=search) |
+            Q(genre__name__icontains=search) |
+            Q(author__first_name__icontains=search)
         )
 
     paginator = Paginator(books, 10)

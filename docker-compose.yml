@@ -214,6 +214,8 @@ services:
       - warehouse
       - shop
       - mailhog
+    volumes:
+      - ./store/media:/code/media
     healthcheck:
       test: [ "CMD-SHELL", "ps ax", "|" ,"grep -v grep", "|" ,"grep nginx",  "||", "exit 1" ]
       interval: 30s

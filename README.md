@@ -1,4 +1,5 @@
 # 📚 Online Bookstore — Graduation Project at Hillel IT School
+![Bookstore overview gif](readster.gif)
 
 ## 🧰 Technology Stack
 
@@ -52,7 +53,7 @@ docker-compose up
 ```
 
 4. Access the app in your browser:
-- Store: http://localhost:8000  
+- Store: http://localhost 
 - Warehouse (API): http://localhost:8001
 
 ---

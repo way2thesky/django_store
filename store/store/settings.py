@@ -88,11 +88,11 @@ WSGI_APPLICATION = 'store.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_store',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dbshop',
         'USER': 'postgres',
-        'PASSWORD': 'asdf1234',  # заміни на свій пароль
-        'HOST': 'localhost',
+        'PASSWORD': 'postgdb',
+        'HOST': 'db_shop',
         'PORT': '5432',
     }
 }
