@@ -37,7 +37,7 @@
 
 ## 🚀 Getting Started
 
-1. Clone the repository:
+## 1. Clone the repository:
 
 ```bash
 git clone https://github.com/way2thesky/django_store.git
@@ -45,19 +45,40 @@ git clone https://github.com/way2thesky/django_store.git
 
 2. Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
 
-3. Build and run the containers:
+## 3. Build and run the containers:
 
 ```bash
 docker-compose build --no-cache
 docker-compose up
 ```
 
-4. Access the app in your browser:
+## 4. Access the app in your browser:
+
 - Store: http://localhost 
 - Warehouse (API): http://localhost:8001
+- Mailhog: http://localhost:8025
+- pgAdmin: http://localhost:5050
 
----
+## 5. You can create a Django superuser for both services:
 
+```
+bash docker exec -it shop bash
+python manage.py createsuperuser
+``` 
+Repeat the same for the warehouse container.
+
+## 6. Load Initial Data (Optional)
+
+```bash If you have a file db_shop.json, load it into the shop:
+docker cp db_shop.json shop:/code/
+docker exec -it shop bash
+python manage.py loaddata db_shop.json
+```
+## Notes
+
+- Media files (book covers) should be placed in store/media/products/...
+
+- Nginx is configured to serve /media/ and /static/ correctly
 ## 📊 UML Diagram
 
 ![Bookstore overview jpg](graph.png)
